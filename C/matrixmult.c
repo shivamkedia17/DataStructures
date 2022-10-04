@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <time.h>
 #define LEN(arr) ((int) (sizeof(arr) / sizeof(arr)[0]))
 
 int main(void);
-int[][] create(int m, int n);
-int[][] gen(int m, int n);
-int[] check_order(int oa[], int ob[]);
-int[][] matmult(int a[][], int b[][]);
+int** create(int m, int n);
+int** gen(int m, int n);
+bool check_order(int oa[], int ob[]);
+int** matmult(int a[][], int b[][]);
 int innerproduct(int u[], int v[]);
 
 //Main function
@@ -18,7 +19,7 @@ int main(void)
 }
 
 //Initialises m x n matrix with zeroes
-int[][] create(int m, int n)
+int** create(int m, int n)
 {
     int t[n];
     int a[m][n]; 
@@ -28,15 +29,15 @@ int[][] create(int m, int n)
     }
     for (int i = 0; i < m; i++)
     {   
-       a[i] = t;
+        a[i] = t;
     }
     return a;
 }
 
 //Randomly assigns values to matrix 
-int[][] gen(int m, int n)
+int** gen(int m, int n)
 {
-    #define MAX 20
+    const int MAX = 20;
     int a[m][n]; 
     for (int i = 0; i < m; i++)
     {   
@@ -50,7 +51,7 @@ int[][] gen(int m, int n)
 }
 
 //check order of input matrices, return order of resultant
-int[] check_order(int oa[], int ob[])
+bool check_order(int oa[], int ob[])
 {   
     if (oa[1] == ob[0])
     {
@@ -60,7 +61,7 @@ int[] check_order(int oa[], int ob[])
 }
 
 //Input Two Matrices, Return the result
-int[][] matmult(int a[][], int b[][])
+int** matmult(int ca, int cb, int a[][ca], int b[][cb])
 {   
     //store no. of rows and columns of matrices A and B
     int ra, cb;

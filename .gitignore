@@ -1,6 +1,16 @@
+# Ignore all
+*
+
+# Unignore all with extensions
+!*.*
+
+# Unignore all dirs
+!*/
+
 .DS_Store
 .vscode
 C/Contents
+
 ##C files to gitignore
 # Prerequisites
 *.d
@@ -39,6 +49,7 @@ C/Contents
 *.i*86
 *.x86_64
 *.hex
+*.exec
 
 # Debug files
 *.dSYM/
