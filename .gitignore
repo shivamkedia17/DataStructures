@@ -1,6 +1,6 @@
 .DS_Store
 .vscode
-
+C/Contents
 ##C files to gitignore
 # Prerequisites
 *.d
