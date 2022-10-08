@@ -49,26 +49,3 @@ int* bubbleSort(int n, int *A)
     }
     return A;
 }
-
-/*
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-
-typedef struct node
-{
-    int val;
-    struct node *next;
-} *nodePointer;
-
-//Assume linked list is without loops
-void printLinkedList(nodePointer HEAD)
-{
-
-}
-
-nodePointer bubbleSortLlist(nodePointer HEAD)
-{
-    return HEAD;
-}
-
-//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
-*/
