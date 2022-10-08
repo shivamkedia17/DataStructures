@@ -4,33 +4,59 @@
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
 
-/*
-int* getArray_File(char **filename)
+typedef struct arrayData
+{
+    int l;
+    int *A;
+}*array;
+
+
+array getArray_File(char *filename)
 {
     FILE* fp = fopen(filename, "r");
     //Check for NULL pointer
     if (fp == NULL)
     {
-        printf("Error reading file.\n");
-        return 1;
+        fprintf(stderr, "Could not open %s\n", filename);
+        perror("Error: ");
+        return NULL; 
     }
     else
     {
         printf("File read successfully.\n");
     }
 
-    fscanf
-    int l = //readfrom file
-    char** vals = //readfrom file
-
+    char* line = NULL;
+    size_t len = 0;
+    
+    //First line should contain length of array to be read
+    int l;
+    getline(&line, &len, fp);
+    sscanf(line, "%u", &l);
+    
+    //second line onwards contains the array to be read
     int *A = malloc(l * sizeof(int));
     for (int i = 0; i < l; i++)
     {
-        A[i] = //read from vals
+        if(getline(&line, &len, fp) != -1)
+        {
+            // printf("%s",line);
+            sscanf(line, "%d", &A[i]);
+        }
+        else
+        {
+            printf("End of input file.\n");
+        }
     }
-    return A;
+    
+    fclose(fp);
+    free(line);
+    array X = malloc(sizeof(array));
+    X->l = l;
+    X->A = A;
+    return X;
 }
-*/
+
 
 int* genArray(int l)
 {
