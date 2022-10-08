@@ -63,4 +63,15 @@ nodePointer genlistFromArray(int l, int *A)
     return HEAD;
 }
 
+void freeList(nodePointer HEAD)
+{
+    nodePointer prev;
+    while (HEAD)
+    {
+        prev = HEAD;
+        HEAD = HEAD->next;
+        free(prev);
+    }
+}
+
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//

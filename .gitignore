@@ -11,6 +11,7 @@
 .vscode
 C/Contents
 C/matrixmult.c
+ClassCode/
 
 ##C files to gitignore
 # Prerequisites
