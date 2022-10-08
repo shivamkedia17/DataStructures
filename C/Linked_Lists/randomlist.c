@@ -23,7 +23,7 @@ int main(int argc, char** argv)
             break;
     }
 
-    int *A = genArray(l);
+    int *A = genArray(l);//FIX MEMORY LEAK
     printArray(l, A);
 
     nodePointer head = genlistFromArray(l, A); 
