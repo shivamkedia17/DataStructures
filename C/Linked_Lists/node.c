@@ -89,7 +89,8 @@ nodePointer reverseList(nodePointer head)
     }
 
     printf("1");
-    nodePointer prevNode, currentNode = head;
+    nodePointer prevNode = head;
+    nodePointer currentNode = head;
     
     printf("2");
     head = head->next;
