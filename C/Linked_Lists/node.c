@@ -88,10 +88,10 @@ nodePointer reverseList(nodePointer head)
         return NULL;
     }
 
-    nodePointer prevNode, currentNode = head;
-    
+    nodePointer prevNode = head;
+    nodePointer currentNode = head->next;
     head = head->next;
-    currentNode = head;
+
     prevNode->next = NULL; 
     
     while (head)
