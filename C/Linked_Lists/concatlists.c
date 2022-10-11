@@ -59,7 +59,7 @@ int main(int argc, char** argv)
 
     free(A);
     free(B);
-    freeList(head1);
-    freeList(head2);
+    // freeList(head1);
+    // freeList(head2);//already freed, when freeing head1 so yeah no need
     freeList(head);
 }
