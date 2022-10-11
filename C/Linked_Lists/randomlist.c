@@ -3,6 +3,7 @@
 #include "node.c"
 #include "arrays.c"
 
+
 int main(int argc, char** argv)
 {
     int l = 0;
@@ -28,6 +29,19 @@ int main(int argc, char** argv)
     nodePointer head = genlistFromArray(l, A); 
 
     printf("Linked List: ");
+    printLinkedList(head);
+
+    /* Appends to a list
+    int x;
+    printf("Enter Element to append : ");
+    scanf("%d",&x); 
+    head = append(head, x);
+    */
+
+    // SEGFAULT HERE ??????? WHY TF
+    printf("EE");
+    head = reverseList(head); 
+    printf("Linked List After Reversing: ");
     printLinkedList(head);
 
     free(A);

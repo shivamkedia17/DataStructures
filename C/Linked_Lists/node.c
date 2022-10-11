@@ -84,22 +84,32 @@ nodePointer reverseList(nodePointer head)
 {
     if(head == NULL)
     {
-        fprintf(stderr,"Cannot reverse null list.");
+        fprintf(stderr,"Cannot reverse null list.\n");
         return NULL;
     }
 
+    printf("1");
     nodePointer prevNode, currentNode = head;
     
+    printf("2");
     head = head->next;
     currentNode = head;
     prevNode->next = NULL; 
     
+    printf("3");
     while (head)
     {
+        printf("4");
         head = head->next; //move to next node
         currentNode->next = prevNode; 
         prevNode = currentNode;
         currentNode = head;
+
+        printf("left over list: ");
+        printLinkedList(head);
+
+        printf("Reversed List: ");
+        printLinkedList(prevNode);
     }
 
     head = prevNode;
