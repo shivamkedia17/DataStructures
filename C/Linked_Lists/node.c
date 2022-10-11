@@ -80,6 +80,20 @@ nodePointer append(nodePointer start, int val)
     return start;
 }
 
+nodePointer concatLists(nodePointer start, nodePointer tail)
+{
+    nodePointer current = start;
+    
+    //seek to end of list
+    while (current->next)
+    {
+        current = current->next;
+    }
+
+    current->next = tail;
+    return start;
+}
+
 nodePointer reverseList(nodePointer head)
 {
     if(head == NULL)

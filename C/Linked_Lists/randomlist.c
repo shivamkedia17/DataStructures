@@ -22,12 +22,24 @@ int main(int argc, char** argv)
             return 1; 
             break;
     }
+
     int *A = genArray(l);
     printArray(l, A);
 
     nodePointer head = genlistFromArray(l, A); 
 
     printf("Linked List: ");
+    printLinkedList(head);
+
+    /* Appends to a list
+    int x;
+    printf("Enter Element to append : ");
+    scanf("%d",&x); 
+    head = append(head, x);
+    */
+
+    head = reverseList(head); 
+    printf("Linked List After Reversing: ");
     printLinkedList(head);
 
     free(A);
