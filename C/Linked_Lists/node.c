@@ -63,6 +63,49 @@ nodePointer genlistFromArray(int l, int *A)
     return HEAD;
 }
 
+nodePointer append(nodePointer start, int val)
+{
+    nodePointer current = start;
+    
+    //seek to end of list
+    while (current->next)
+    {
+        current = current->next;
+    }
+
+    current->next = malloc(sizeof(nodePointer));
+    current = current->next;
+    current->val = val;
+    current->next = NULL;
+    return start;
+}
+
+nodePointer reverseList(nodePointer head)
+{
+    if(head == NULL)
+    {
+        fprintf(stderr,"Cannot reverse null list.");
+        return NULL;
+    }
+
+    nodePointer prevNode, currentNode = head;
+    
+    head = head->next;
+    currentNode = head;
+    prevNode->next = NULL; 
+    
+    while (head)
+    {
+        head = head->next; //move to next node
+        currentNode->next = prevNode; 
+        prevNode = currentNode;
+        currentNode = head;
+    }
+
+    head = prevNode;
+    return head;
+}
+
 void freeList(nodePointer HEAD)
 {
     nodePointer prev;
@@ -73,5 +116,6 @@ void freeList(nodePointer HEAD)
         free(prev);
     }
 }
+
 
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
