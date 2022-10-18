@@ -108,8 +108,10 @@ nodePointer reverseList(nodePointer head)
 
     prevNode->next = NULL; 
     
+    printf("3");
     while (head)
     {
+        printf("4");
         head = head->next; //move to next node
         currentNode->next = prevNode; //connect previous node
         prevNode = currentNode; //move the new Head

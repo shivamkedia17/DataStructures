@@ -3,6 +3,7 @@
 #include "node.c"
 #include "arrays.c"
 
+
 int main(int argc, char** argv)
 {
     int l = 0;
