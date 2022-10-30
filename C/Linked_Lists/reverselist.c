@@ -3,6 +3,13 @@
 #include "node.c"
 #include "arrays.c"
 
+// typedef struct List_Start_End
+// {
+//     nodePointer StartNode;
+//     nodePointer EndNode;
+// }
+// *List_Start_End
+
 nodePointer chunk_reverseList(nodePointer head, int chunk_size)
 {   
     //int *revlist = malloc(chunk_size * sizeof(int));
@@ -13,24 +20,49 @@ nodePointer chunk_reverseList(nodePointer head, int chunk_size)
     //OR
     //create list of chunk_size using current array
 
-    nodePointer currentNode = head;
-    while (currentNode->next != NULL)
+    nodePointer startNode = head;
+    nodePointer endNode;
+    while (startNode->next != NULL)
     {
-        nodePointer templist = malloc(sizeof(nodePointer));
-        templist->val = 0;
-        templist->next = NULL;
+        nodePointer tempHead = malloc(sizeof(nodePointer));
+        tempHead->val = 0;
+        tempHead->next = NULL;
 
-        nodePointer tempNode = templist;
+        nodePointer tempNode = tempHead;
+
+        nodePointer prevEnd;
+        nodePointer nextStart;
+
+        
+        //store start and end,
+        //snip list at prev start and end next (set them to NULL)
+            //check for edge cases,
+            // i.e if start = head OR end -> next = NULL
+        // reverse(start)
+        //prev-start->next = reverse(start)
+        //reverse.end->next = end next
+
+        //optimize for concat:
+            //either create struct and get start,end from reverse()
+            //or create different function
 
 
-        for (int i=0; i<chunk_size; i++)
+        for (int i = 1; i <= chunk_size; i++)
         {
-            if(currentNode->next)
+            if (currentNode)
             {
-                templist 
+                if (startNode == head) {prevEnd = NULL;}
+                
+                if (i == chunk_size)
+                {
+                    endNode = currentNode;
+                }
             }
+            
+            
             //free temp
         }
+        
     }
 }
 
