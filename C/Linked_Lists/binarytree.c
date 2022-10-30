@@ -10,8 +10,7 @@ typedef struct treeNode
 
 bTree createNode(int value)
 {
-    bTree Node;
-    Node = malloc(sizeof(bTree));
+    bTree Node  = malloc(sizeof(bTree));
     Node->left  = NULL;
     Node->right = NULL;
     Node->val   = value; 
@@ -22,36 +21,50 @@ bTree insert(bTree root, int value)
 {
     if      (root==NULL)         
     {
+        printf("Inserting at NULL root: %p\n", root);
         root = createNode(value);
-        printf("Inserted at new root: %p, value: %d\n",root,root->val);
+        printf("Inserted at new root: %p, value: %d, left: %p, right: %p\n",root,root->val,root->left, root->right);
         return root;
     }
     else
     {
         if      (value < root->val)  
+        {
+            if (root->left == NULL) 
             {
-                if (root->left) {return insert(root->left , value);}
-                else            
-                {
-                    root->left = createNode(value);
-                    printf("Inserted at root: %p, value: %d\n",root,root->val);
-                    return root->left;
-                }
+                printf("Inserting at left root: %p\n", root);
+                root->left = createNode(value);
+                printf("Inserted at new root: %p, value: %d, left: %p, right: %p\n",root->left,root->left->val,root->left->left, root->left->right);
+                return root->left;
             }
+            else            
+            {
+                return insert(root->left, value);
+            }
+        }
         else if (value > root->val)  
+        { 
+            if (root->right == NULL) 
             {
-                if (root->right){return insert(root->right , value);}
-                else            
-                {
-                    root->right = createNode(value);
-                    printf("Inserted at root: %p, value: %d\n",root,root->val);
-                    return root->right;
-                }
+                printf("Inserting at right root: %p\n", root);
+                root->right = createNode(value);
+                printf("Inserted at new root: %p, value: %d, left: %p, right: %p\n",root->right,root->right->val,root->right->left, root->right->right);
+                return root->right;
             }
+            else            
+            {
+                return insert(root->right, value);
+            }
+        }
         else                         
-            {return root;}
+        {
+            printf("Value already exists at root: %p, value: %d, left: %p, right: %p\n",root,root->val,root->left, root->right);
+            return root;
+        }
     }
 }
+
+
 
 bTree search(bTree root, int value)
 {
@@ -120,16 +133,16 @@ void printTree(bTree root, int type)
 
 bTree genTree_Array(int l, int *A)
 {
-    bTree root;
+    bTree Mainroot = NULL;
     for (int i = 0; i < l; i++)
     {
         printf("%d\n", A[i]);
-        if (i == 0) {root = insert(root, A[i]);}
-        else        {       insert(root, A[i]);}
+        if (i == 0) {Mainroot   = insert(Mainroot, A[i]);}
+        else        {bTree leaf = insert(Mainroot, A[i]);}
         //showTree_infix(root);
-        printf("%d\n", root->val);
-        printf("%d\n", A[i]);
+        printf("Root val: %d\n", Mainroot->val);
+        printf("A i :%d\n", A[i]);
         printf("\n");
     }
-    return root;
+    return Mainroot;
 }
