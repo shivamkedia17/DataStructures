@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "QuickSort.c"
+#include "SelectionSort.c"
 
 int main(int argc, char** argv)
 {
@@ -27,8 +27,8 @@ int main(int argc, char** argv)
     printArray(l, A);
     printf("\n");
 
-    quicksort(A, 0, l-1);
-    printf("Sorted Array: \n");
+    selectionsort(A, l);
+    printf("SelectionSorted Array: \n");
     printArray(l, A);
     printf("\n");
 
