@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include "bubblesort.c"
 
-int main(){
+int main()
+{
     // hello darkness my old friend, 
     // I've come to talk with you again
     //
@@ -12,7 +13,8 @@ int main(){
     printArray(l, a);
     printf("---------------------------------------\n");
     printf("After Sorting: ");
-    printArray(l, bubbleSort(l, a));
+    bubbleSort(l, a);
+    printArray(l, a);
 
     free(a);
     return 0;

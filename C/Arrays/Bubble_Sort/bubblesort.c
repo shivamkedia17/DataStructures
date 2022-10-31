@@ -30,7 +30,7 @@ void printArray(int l, int* A)
 }   
 
 
-int* bubbleSort(int n, int *A)
+void bubbleSort(int n, int *A)
 {
     int done;
     for (done = 0; done < n-1; done++)
@@ -47,5 +47,5 @@ int* bubbleSort(int n, int *A)
             }
         }
     }
-    return A;
+    //return A;
 }
