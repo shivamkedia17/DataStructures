@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "node.c"
 #include "arrays.c"
+#include "selectionsortlist.c"
 
 
 int main(int argc, char** argv)
@@ -39,10 +39,15 @@ int main(int argc, char** argv)
     head = append(head, x);
     */
 
-    head = reverseList(head); 
-    printf("Linked List After Reversing: ");
-    printLinkedList(head);
+    // head = reverseList(head); 
+    // printf("Linked List After Reversing: ");
+    // printLinkedList(head);
 
+    // printf("\n%d\n",countNodes(head));
+
+    printf("After Sel Sorting: ");
+    printLinkedList(selectionSortlist(head));
+    
     free(A);
     freeList(head);
 }
