@@ -24,6 +24,18 @@ void printLinkedList(nodePointer HEAD)
     printf("\n");
 }
 
+int countNodes(nodePointer HEAD)
+{
+    int count = 0;
+    nodePointer currentNode = HEAD;
+    while(currentNode != NULL)
+    {
+        count++;
+        currentNode = currentNode->next;
+    }
+    return count;
+}
+
 //returns HEAD of a new linked list generated from values in Array
 nodePointer genlistFromArray(int l, int *A)
 {
