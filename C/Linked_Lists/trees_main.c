@@ -25,11 +25,12 @@ int main(int argc, char** argv)
 
     // int *A = genArray(l);
     // printArray(l, A);
-    int A[] = {4,2,1,3,6,5,7};
+    // int A[] = {4,2,1,3,6,5,7};
+    int A[] = {3,1,4};
 
-    bTree Root = genTree_Array(7, A);
+    bTree Root = genTree_Array(3, A);
     //showTree_infix(Root);
 
     // free(&A);
-    freeTree(Root);
+    // freeTree(Root);
 }
