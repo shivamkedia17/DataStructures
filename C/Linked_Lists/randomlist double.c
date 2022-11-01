@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arrays.c"
-#include "selectionsortlist.c"
+#include "QuickSortDoublyList.c"
 
 int main(int argc, char** argv)
 {
@@ -31,6 +31,10 @@ int main(int argc, char** argv)
     printf("Linked List: ");
     printLinkedList(head);
 
+    printf("hehe");
+    nodePointer tail = findTail(head);
+    printf("%d\n",tail->val);
+
     /* Appends to a list
     int x;
     printf("Enter Element to append : ");
@@ -44,8 +48,9 @@ int main(int argc, char** argv)
 
     // printf("\n%d\n",countNodes(head));
 
-    printf("After Sel Sorting: ");
-    printLinkedList(selectionSortlist(head));
+    printf("After Quick Sorting: ");
+    quicksortlist(head, tail);
+    printLinkedList(head);
     
     free(A);
     freeList(head);
