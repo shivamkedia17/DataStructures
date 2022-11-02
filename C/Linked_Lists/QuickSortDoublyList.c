@@ -22,7 +22,7 @@ nodePointer partition(nodePointer head, nodePointer tail)
     nodePointer i = head->next;      //Everything Left  of i <= pivot
     nodePointer j = tail;           //Everything Right of j >  pivot
 
-    while(i != j)//??
+    while(j-> next != i)//??
     {
         // At one point i and j will meet in the middle, 
         // but we don't stop there because we can't gurantee
@@ -41,19 +41,19 @@ nodePointer partition(nodePointer head, nodePointer tail)
             i = i->next;
         }
     }
-    if (i == j)//??
-    {
-        if (i->val > pivot)
-        {
-            swap(i, j); //?? What if the value at j is also greater??
-                        // i remains at the same place only j is changed
-            j = j->prev; //Would require a doubly linked list??
-        }
-        else //(A[i] <= pivot)
-        {
-            i = i->next;
-        }
-    }
+    // if (i == j)//??
+    // {
+    //     if (i->val > pivot)
+    //     {
+    //         swap(i, j); //?? What if the value at j is also greater??
+    //                     // i remains at the same place only j is changed
+    //         j = j->prev; //Would require a doubly linked list??
+    //     }
+    //     else //(A[i] <= pivot)
+    //     {
+    //         i = i->next;
+    //     }
+    // }
 
     /*
     (i has crossed j) so:
@@ -73,6 +73,12 @@ void quicksortlist(nodePointer head, nodePointer tail)
 
     // P is the pivot
     nodePointer p = partition(head, tail);
+
+
+    // nodePointer ind = partition(head,end);
+
+    printf("%p,%d\n",p,p->val);
+    printLinkedList(head);
 
     quicksortlist(head, p->prev); //again??
     quicksortlist(p->next, tail);

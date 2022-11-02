@@ -23,24 +23,30 @@ int main(int argc, char** argv)
             break;
     }
 
-    int *A = genArray(l);
-    printArray(l, A);
+    // int *A = genArray(l);
+    // printArray(l, A);
+
+    int A[] = {21,222,19,18,16,24,1,9};
+    l = sizeof(A) / sizeof(A[0]);
 
     nodePointer head = genlistFromArray(l, A); 
 
     printf("Linked List: ");
     printLinkedList(head);
 
-    printf("hehe");
-    nodePointer tail = findTail(head);
-    printf("%d\n",tail->val);
+    printf("%p,%d\n",head,head->val);
 
-    /* Appends to a list
-    int x;
-    printf("Enter Element to append : ");
-    scanf("%d",&x); 
-    head = append(head, x);
-    */
+
+    printf("hehe\n");
+    nodePointer end = findTail(head);
+    printf("%d\n",end->val);
+
+    // /* Appends to a list
+    // int x;
+    // printf("Enter Element to append : ");
+    // // scanf("%d",&x); 
+    // head = append(head, 66);
+    // */
 
     // head = reverseList(head); 
     // printf("Linked List After Reversing: ");
@@ -48,10 +54,18 @@ int main(int argc, char** argv)
 
     // printf("\n%d\n",countNodes(head));
 
+    // swap(head,end);
+
+    // nodePointer ind = partition(head,end);
+    // printf("%p,%d\n",ind,ind->val);
+    // printLinkedList(head);
+
     printf("After Quick Sorting: ");
-    quicksortlist(head, tail);
+    quicksortlist(head, end);
+
     printLinkedList(head);
+
     
-    free(A);
+    // free(A);
     freeList(head);
 }
