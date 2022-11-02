@@ -10,7 +10,7 @@ typedef struct treeNode
 
 bTree createNode(int value)
 {
-    bTree Node  = malloc(sizeof(bTree));
+    bTree Node  = malloc(sizeof(struct treeNode));
     Node->left  = NULL;
     Node->right = NULL;
     Node->val   = value; 

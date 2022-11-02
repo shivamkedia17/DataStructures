@@ -70,7 +70,7 @@ nodePointer genlistFromArray(int l, int *A)
 
     if (HEAD == NULL) 
     {
-        HEAD = malloc(sizeof(nodePointer));
+        HEAD = malloc(sizeof(struct node));
         HEAD->val = A[0];
         HEAD->next = NULL;
         HEAD->prev = NULL;
@@ -81,7 +81,7 @@ nodePointer genlistFromArray(int l, int *A)
     for(int i = 1; i < l; i++)
     {
         //creating new node
-        currentNode->next = malloc(sizeof(nodePointer));
+        currentNode->next = malloc(sizeof(struct node));
         //attaching new node to list
         currentNode = currentNode->next;
         currentNode->prev = previousNode;
@@ -99,7 +99,7 @@ nodePointer append(nodePointer start, int val)
 {
     if(start == NULL)
     {
-        start = malloc(sizeof(nodePointer));
+        start = malloc(sizeof(struct node));
         start->val  = val; 
         start->next = NULL;
         start->prev = NULL;
@@ -114,7 +114,7 @@ nodePointer append(nodePointer start, int val)
         current = current->next;
     }
 
-    current->next = malloc(sizeof(nodePointer));
+    current->next = malloc(sizeof(struct node));
 
     nodePointer previous = current;
     current = current->next;
