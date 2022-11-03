@@ -5,29 +5,29 @@
 
 int main(int argc, char** argv)
 {
-    int l = 0;
-    switch (argc)
-    {
-        case 1:
-            printf("Enter Size of List: ");
-            scanf("%d",&l);  
-            break;
+    // int l = 0;
+    // switch (argc)
+    // {
+    //     case 1:
+    //         printf("Enter Size of List: ");
+    //         scanf("%d",&l);  
+    //         break;
 
-        case 2:
-            sscanf(argv[1], "%d", &l);
-            break;
+    //     case 2:
+    //         sscanf(argv[1], "%d", &l);
+    //         break;
 
-        default:
-            fprintf(stderr, "Usage: %s [list_size]\n", argv[0]);
-            return 1; 
-            break;
-    }
+    //     default:
+    //         fprintf(stderr, "Usage: %s [list_size]\n", argv[0]);
+    //         return 1; 
+    //         break;
+    // }
 
     // int *A = genArray(l);
     // printArray(l, A);
 
     int A[] = {21,222,19,18,16,24,1,9};
-    l = sizeof(A) / sizeof(A[0]);
+    int l = sizeof(A) / sizeof(A[0]);
 
     nodePointer head = genlistFromArray(l, A); 
 
