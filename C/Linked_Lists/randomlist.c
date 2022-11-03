@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arrays.c"
-#include "selectionsortlist.c"
+#include "node.c"
 
 int main(int argc, char** argv)
 {
@@ -29,7 +29,14 @@ int main(int argc, char** argv)
     nodePointer head = genlistFromArray(l, A); 
 
     printf("Linked List: ");
+    printf("%p\n",head);
     printLinkedList(head);
+
+    nodePointer newhead = duplicatelist(head); 
+
+    printf("Linked List: ");
+    printf("%p\n",newhead);
+    printLinkedList(newhead);
 
     /* Appends to a list
     int x;
@@ -44,9 +51,10 @@ int main(int argc, char** argv)
 
     // printf("\n%d\n",countNodes(head));
 
-    printf("After Sel Sorting: ");
-    printLinkedList(selectionSortlist(head));
+    // printf("After Sel Sorting: ");
+    // printLinkedList(selectionSortlist(head));
     
     free(A);
     freeList(head);
+    freeList(newhead);
 }

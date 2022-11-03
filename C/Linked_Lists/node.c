@@ -55,7 +55,7 @@ nodePointer genlistFromArray(int l, int *A)
 
     if (HEAD == NULL) 
     {
-        HEAD = malloc(sizeof(nodePointer));
+        HEAD = malloc(sizeof(struct node));
         HEAD->val = A[0];
         HEAD->next = NULL;
         currentNode = HEAD;
@@ -64,7 +64,7 @@ nodePointer genlistFromArray(int l, int *A)
     for(int i = 1; i < l; i++)
     {
         //creating new node
-        currentNode->next = malloc(sizeof(nodePointer));
+        currentNode->next = malloc(sizeof(struct node));
         //attaching new node to list
         currentNode = currentNode->next;
         //assigning value to new node
@@ -85,7 +85,7 @@ nodePointer append(nodePointer start, int val)
         current = current->next;
     }
 
-    current->next = malloc(sizeof(nodePointer));
+    current->next = malloc(sizeof(struct node));
     current = current->next;
     current->val = val;
     current->next = NULL;
@@ -104,6 +104,36 @@ nodePointer concatLists(nodePointer start, nodePointer tail)
 
     current->next = tail;
     return start;
+}
+
+nodePointer duplicatelist(nodePointer head)
+{
+    if (head == NULL) {return NULL;}
+    
+    nodePointer newHead;
+    
+    newHead = malloc(sizeof(struct node));
+    newHead->val  = head->val;
+    newHead->next = NULL;
+
+    nodePointer currentNode = head;
+    nodePointer newNode = newHead;
+   
+    while (currentNode->next)
+    {
+        //Iterating
+        currentNode = currentNode->next;
+
+        //creating new node
+        newNode->next = malloc(sizeof(struct node));
+        //attaching new node to list
+        newNode = newNode->next;
+        //assigning value to new node
+        newNode->val = currentNode->val;
+        //Demarcating the end of list
+        newNode->next = NULL;
+    }
+    return newHead;
 }
 
 nodePointer reverseList(nodePointer head)
