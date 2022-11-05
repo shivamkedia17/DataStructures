@@ -1,0 +1,14 @@
+33, 36, 27, 15, 43, 35, 36, 42, 49, 21.
+Linked List: 0x12be06820
+33 36 27 15 43 35 36 42 49 21 
+After Insertion Sorting: Listprev: 0x12be06820, Current: 0x12be06830, Listnext: 0x12be06830
+Started
+Listprev: 0x12be06830, Current: 0x12be06830, Listnext: 0x12be06840
+Loop Exited 
+called
+33 36 27 15 43 35 36 42 49 21 
+Listprev: 0x12be06820, Current: 0x12be06840, Listnext: 0x12be06830
+Started
+Loop Exited 
+called
+33 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27 36 27
