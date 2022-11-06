@@ -15,6 +15,7 @@ Repository for CS-1203 (Monsoon 2022), Ashoka University.
 
 - ### Linked Lists
 Usually, the files with `main()` can accept the size of the list as a Command-line argument to create a random list.
+
 	- *node.c* - Basic singly linked list functions like:
 		- print, free, append, concat, reverse, countNodes, duplicate, etc.
 		- generate (from a randomly created array depending on the size of the list).
