@@ -1,13 +1,40 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "arrays.c"
 
 #define LEN(A) (sizeof(A)/sizeof(A[0]))
 
-void insert(int *H)
-{
+int insert(int *H, int l,int val);
+void swap(int *H, int a, int b);
+void heapify_up(int *H, int child);
+void heapify_down(int *H, int l, int parent);
+bool isparent(int n, int l);
+int swapleast(int *H, int l, int p);
+void extract_min(int *H, int l);
+int findchild_left(int p);
+int findchild_right(int p);
+int findparent(int c);
+int min(int *H, int l, int a, int b);
 
+//returns new length of H
+int insert(int *H, int l, int val)
+{
+    int newlen = l + 1;
+    
+    //make space for new element
+    H = realloc(H, newlen * sizeof(int));
+    
+    //put new element in last spot
+    H[newlen - 1] = val;
+    heapify_up(H, (newlen-1));
+    
+    return newlen;
+}
+
+void extract_min(int *H, int l)
+{
+    swap(H, 0, l-1);
+    heapify_down(H, l, 0);
 }
 
 void swap(int *H, int a, int b)
@@ -19,23 +46,23 @@ void swap(int *H, int a, int b)
 
 void heapify_up(int *H, int child)
 {
-    int l = LEN(H);
-    
-    //We don't want to heapify the topmost node
-    for (int i = l-1; i > 0; i--)
+    int p = findparent(child);
+    if (p != child && H[p] > H[child]) 
     {
-        int p = findparent(i);
-        if (p != i && H[p] > H[i]) {swap(H, p, i);}
+        swap(H, p, child);
+        heapify_up(H, p);
     }
+    return;
 }
 
-void heapify_down(int *H)
+void heapify_down(int *H, int l, int parent)
 {
-    int l = LEN(H);
-    for (int i = 0; i < l; i++)
+    if (isparent(parent,l))
     {
-        if (isparent(i,l)) {swapleast(H, i, l);}
+        int least = swapleast(H, l, parent);
+        heapify_down(H, l, least);
     }
+    return;
 }
 
 bool isparent(int n, int l)
@@ -44,20 +71,16 @@ bool isparent(int n, int l)
     else                            {return true; }  
 }
 
-int swapleast(int *H, int p, int l)
+int swapleast(int *H, int l, int p)
 {
     //find left and right child, 
     int left  = findchild_left (p);
     int right = findchild_right(p);
 
     //swap with least of the 3
-    int m = min(H, p, min(H, left, right));
-    if (p != m) {swap(H, p, m);}
-}
-
-int extract_min(int *H)
-{
-
+    int least = min(H, l, p, min(H, l, left, right));
+    if (p != least) {swap(H, p, least);}
+    return least;
 }
 
 int findchild_left(int p)
@@ -79,11 +102,10 @@ int findparent(int c)
 }
 
 //takes two indexes, returns the index containing the lesser value
-int min(int *H, int a, int b)
+int min(int *H, int l, int a, int b)
 {
-    int l = LEN(H);
     if (a >= l || b >= l) {return -1;}
 
-    int lesser_ind = H[a] < H[b]? a:b;
+    int lesser_ind = H[a] < H[b] ? a:b;
     return lesser_ind;
 }
