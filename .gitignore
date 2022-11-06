@@ -12,7 +12,7 @@
 C/Contents
 C/matrixmult.c
 ClassCode/
-C/Scratchpads/
+C/Scratchpads
 
 ##C files to gitignore
 # Prerequisites
