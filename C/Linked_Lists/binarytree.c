@@ -74,6 +74,19 @@ bTree search(bTree root, int value)
     else                         {return root;}
 }
 
+void presentInsideTree(bTree root, int value)
+{
+    bTree result = search(root,value);
+    if(result != NULL)
+    {
+        printf("Value contained in tree at: %p.\n",result);
+    }
+    else
+    {
+        printf("Value NOT contained in tree.\n");
+    }
+}
+
 
 void freeTree(bTree root)
 {
@@ -115,6 +128,7 @@ void printTree(bTree root, int type)
     {
         case 1:     //In-order traversal
             showTree_infix(root);
+            printf("\n");
             break;
 
         // case 2:     //Preorder traversal

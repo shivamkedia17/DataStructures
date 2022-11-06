@@ -29,7 +29,14 @@ int main(int argc, char** argv)
     // int A[] = {3,1,4};
 
     bTree Root = genTree_Array(7, A);
-    showTree_infix(Root);
+    printTree(Root, 1);
+
+    presentInsideTree(Root, 45);
+
+    insert(Root, 45);
+    printTree(Root, 1);
+
+    presentInsideTree(Root, 45);
 
     // free(&A);
     freeTree(Root);
