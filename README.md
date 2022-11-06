@@ -14,7 +14,7 @@ Repository for CS-1203 (Monsoon 2022), Ashoka University.
 	- *HeapSort.c* - in progress
 
 - ### Linked Lists
-Usually, the files with `main()` can accept the size of the list as a Command-line argument to create a random list.
+	Usually, the files with `main()` can accept the size of the list as a Command-line argument to create a random list.
 	- *node.c* - Basic singly linked list functions like:
 		- print, free, append, concat, reverse, countNodes, duplicate, etc.
 		- generate (from a randomly created array depending on the size of the list).
@@ -31,7 +31,7 @@ Usually, the files with `main()` can accept the size of the list as a Command-li
 		 - printTree() - Accepts 1, 2 or 3 as input for inorder, preorder and postorder traversal of the tree.
 
 - ### Heaps
-Implemention assuming contiguous arrays are heaps.
+	**Implemention assumes arrays are contiguous and can be represented as heaps.**
 	- *heaps.c* - Find parent, left-child, right-child, swap, min, max, etc.
 	- *minheaps.c* - insert(),  extract_min(), extract_min()_pop, siftup(), siftdown() for MinHeaps.
 	- *maxheaps.c* - insert(),  extract_max(), extract_max()_pop, siftup(), siftdown() for MaxHeaps.
