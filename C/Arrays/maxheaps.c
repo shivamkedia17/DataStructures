@@ -4,13 +4,15 @@
 
 int swapgreatest(int *H, int l, int p);
 
-void heapify_up(int *H, int child)
+void heapify_up(int *H, int l, int child)
 {
+    if (l < 1) {return;}
+
     int p = findparent(child);
     if (p != child && H[p] < H[child]) 
     {
         swap(H, p, child);
-        heapify_up(H, p);
+        heapify_up(H, l, p);
     }
     return;
 }
@@ -25,13 +27,15 @@ int insert(int *H, int l, int val)
     
     //put new element in last spot
     H[newlen - 1] = val;
-    heapify_up(H, (newlen-1));
+    heapify_up(H, l, (newlen-1));
     
     return newlen;
 }
 
 void heapify_down(int *H, int l, int parent)
 {
+    if (l < 0) {return;}
+
     if (isparent(parent,l))
     {
         int least = swapgreatest(H, l, parent);
@@ -42,6 +46,8 @@ void heapify_down(int *H, int l, int parent)
 
 void extract_max(int *H, int l)
 {
+    if (l < 2) {return;}
+
     swap(H, 0, l-1);
     heapify_down(H, l, 0);
 }
@@ -49,6 +55,8 @@ void extract_max(int *H, int l)
 //returns new length of H
 int extract_max_pop(int *H, int l)
 {
+    if (l < 0) {return -1;}
+
     swap(H, 0, l-1);
     heapify_down(H, l, 0);
 
