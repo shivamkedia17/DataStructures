@@ -37,8 +37,8 @@ Repository for CS-1203 (Monsoon 2022), Ashoka University.
 	- *maxheaps.c* - insert(),  extract_max(), extract_max()_pop, siftup(), siftdown() for MaxHeaps.
 
 - ### Pointers
-	*PointerExperiments.c* - Explore how int, char and pointers to pointers work.
-	*pointers.c* - Similar
+	- *PointerExperiments.c* - Explore how int, char and pointers to pointers work.
+	- *pointers.c* - Similar
 
 - ### Misc
 	1. *forloop* - See where forloop goes wrong due to precision constraints in computers
