@@ -3,26 +3,81 @@
 #include <stdbool.h>
 #include "arrays.c"
 
+int m;
+int k;
+bool *bitArray;
+int **A;
+
 //generates a bit array of size m
-bool* generateEmptyArray(int m)
+void generateEmptyArray(int size)
 {
-    bool *A = (bool) malloc(m* (sizeof(bool)));
-    for (int i = 0; i < m; i++)
+    bitArray = (bool) malloc(size* (sizeof(bool)));
+    for (int i = 0; i < size; i++)
     {
-        A[i] = 0;
+        bitArray[i] = false;
     }
 }
 
-//Generates k different hash functions
-void hash_function_generator(int k)
+void createHashKeys(int count)
 {
-    //
+    A = (int) malloc(count * sizeof(int*));
+    for (int i = 0; i < count; i++)
+    {
+        A[i] = generate_new_hash();
+    }
 }
 
-void generate_new_hash()
+int* generate_new_hash()
 {
-    //
+    int *Ai = (int) malloc(m * sizeof(int));
+    
+    return Ai;
 }
+
+// m = No. of buckets, (or size of bit array in this case)
+// k = No. of different hash functions, a_0, a_1, ... , a_k where, a_i is a hash()
+
+// a_i is an m digit number in base m
+// so a_i could be an array with m digits each having a value from 0 to m-1
+
+// Key = x with digits x_0,
+// Hash(x) = Sum (a_i * x)
+
+void createbloom(int buckets, int hashes)
+{
+    m = buckets;
+    k = hashes;
+
+}
+
+void add();
+bool search();
+
+void add(int element)
+{
+    for (int i = 0; i < k; i++)
+    {   
+        int* hashkey = A[i];
+        hash(hashkey, element);
+    }
+}
+
+
+bool isPrime(int n)
+{
+    if (n < 2) {return false;}
+    int i;
+    for (i = 2; i <= n/i; i++) 
+    {
+        if (n%i == 0) 
+        {
+            return true;
+        }
+    }
+}
+
+
+
 
 void hash_template()
 {
@@ -37,7 +92,5 @@ int* hashmain()
     //Outputs: k indexes
 }
 
-void add();
 
-bool search();
 
