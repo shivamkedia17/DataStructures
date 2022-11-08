@@ -21,6 +21,8 @@ void generateEmptyArray(int size)
 void createHashKeys(int count)
 {
     A = (int) malloc(count * sizeof(int*));
+    srandom(time(NULL));
+
     for (int i = 0; i < count; i++)
     {
         A[i] = generate_new_hash();

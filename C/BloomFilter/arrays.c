@@ -60,15 +60,12 @@ array getArray_File(char *filename)
 
 int* genArray(int l)
 {
-    const int MAX = l<50?50:(50* l/50);
-    // srandom(time(NULL));
+    const int MAX = l;
+    
     int *A = malloc(l * sizeof(int));
 
-    for (int i = 0; i < l; i++)
-    {   
-        A[i] = random() % MAX; //generate a random num less in range(0,MAX)
-    }
-    //printf("l%d\n",l);
+    //generate a random num less in range(0,MAX)
+    for (int i = 0; i < l; i++) {A[i] = random() % MAX;}
     return A; 
 }
 
