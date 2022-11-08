@@ -16,11 +16,26 @@ int main(void)
     }
     printArray(l,H);
     
-    l = extract_max_pop(H, l);
+    extract_max(H,l);
     printArray(l,H);
 
-    l = insert(H, l, 500);
+    extract_max(H,l);
     printArray(l,H);
+    
+    extract_max(H,l);
+    printArray(l,H);
+    extract_max(H,l);
+    printArray(l,H);
+    extract_max(H,l);
+    printArray(l,H);
+    extract_max(H,l);
+    printArray(l,H);
+
+    // l = extract_max_pop(H, l);
+    // printArray(l,H);
+
+    // l = insert(H, l, 500);
+    // printArray(l,H);
 
     free(H);
 }
