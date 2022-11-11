@@ -24,10 +24,13 @@ int main(void)
     
     extract_max(H,l);
     printArray(l,H);
+
     extract_max(H,l);
     printArray(l,H);
+
     extract_max(H,l);
     printArray(l,H);
+    
     extract_max(H,l);
     printArray(l,H);
 

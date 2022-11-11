@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "heaps.c"
 
 int swapgreatest(int *H, int l, int p);
@@ -11,6 +12,7 @@ void heapify_up(int *H, int l, int child)
     int p = findparent(child);
     if (p != child && H[p] < H[child]) 
     {
+        assert(H[p] < H[child]);
         swap(H, p, child);
         heapify_up(H, l, p);
     }
