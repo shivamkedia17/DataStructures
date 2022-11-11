@@ -109,6 +109,12 @@ nodePointer concatLists(nodePointer start, nodePointer tail)
     return start;
 }
 
+nodePointer joinLists(nodePointer firstHead, nodePointer firstTail, nodePointer secondHead)
+{
+    firstTail->next = secondHead;
+    return firstHead;
+}
+
 nodePointer duplicatelist(nodePointer head)
 {
     if (head == NULL) {return NULL;}
@@ -152,11 +158,9 @@ nodePointer reverseList(nodePointer head)
     head = head->next; // move to second node
 
     prevNode->next = NULL; 
-    
-    printf("3");
+
     while (head)
     {
-        printf("4");
         head = head->next; //move to next node
         currentNode->next = prevNode; //connect previous node
         prevNode = currentNode; //move the new Head

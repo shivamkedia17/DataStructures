@@ -3,66 +3,52 @@
 #include "node.c"
 #include "arrays.c"
 
-// typedef struct List_Start_End
-// {
-//     nodePointer StartNode;
-//     nodePointer EndNode;
-// }
-// *List_Start_End
-
 nodePointer chunk_reverseList(nodePointer head, int chunk_size)
 {   
-    //int *revlist = malloc(chunk_size * sizeof(int));
-    
-    //readlist in chunk sizes from end of array
-    //if node->next is NULL, realloc array to whatever it is now.
-    //create list using reversed array
-    //OR
-    //create list of chunk_size using current array
-
     nodePointer startNode = head;
-    nodePointer endNode;
-    while (startNode->next != NULL)
-    {
-        nodePointer tempHead = malloc(sizeof(nodePointer));
-        tempHead->val = 0;
-        tempHead->next = NULL;
+    nodePointer newHead  = NULL;
+    nodePointer prevTail = NULL;
 
-        nodePointer tempNode = tempHead;
+    while (startNode != NULL)
+    {   
+        nodePointer iterNode = startNode;
+        nodePointer chunkHead = startNode;
 
-        nodePointer prevEnd;
-        nodePointer nextStart;
+        // Last node in a chunk will (chunk-size - 1) steps from chunkHead 
+        for (int i = 1; (iterNode->next != NULL) && (i < chunk_size); i++)
+        {iterNode = iterNode->next;}
 
-        
-        //store start and end,
-        //snip list at prev start and end next (set them to NULL)
-            //check for edge cases,
-            // i.e if start = head OR end -> next = NULL
-        // reverse(start)
-        //prev-start->next = reverse(start)
-        //reverse.end->next = end next
-
-        //optimize for concat:
-            //either create struct and get start,end from reverse()
-            //or create different function
-
-
-        for (int i = 1; i <= chunk_size; i++)
+        if (iterNode != NULL)
         {
-            if (currentNode)
-            {
-                if (startNode == head) {prevEnd = NULL;}
-                
-                if (i == chunk_size)
-                {
-                    endNode = currentNode;
-                }
-            }
-            
-            
-            //free temp
-        }
-        
-    }
-}
+            nodePointer chunkEnd = iterNode;
 
+            // Extract chunk of given size 
+            startNode = chunkEnd->next;
+
+            //Sever chunk from main list
+            chunkEnd->next = NULL;
+
+            // Assert: 
+            // Broken into two lists:
+            // [ChunkHead...ChunkEnd][startNode...end_of_list]
+
+            //Store end of chunk (where start becomes end after reversing)
+            chunkEnd = chunkHead;
+
+            // newHead ... prevTail = list of reversed chunks
+
+            if(newHead == NULL)
+            {
+                newHead  = reverseList(chunkHead); // Append to emptylist
+                prevTail = chunkEnd; // Update prevTail
+            }
+            else
+            {
+                prevTail->next = reverseList(chunkHead); // Append to list of reversed chunks
+                prevTail = chunkEnd;
+            }
+        }
+    }
+
+    return newHead;
+}
