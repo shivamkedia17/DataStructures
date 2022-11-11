@@ -20,9 +20,8 @@ void generateEmptyArray(int size)
 
 void createHashKeys(int count)
 {
-    A = (int) malloc(count * sizeof(int*));
+    A = (int*) malloc(count * sizeof(int*));
     srandom(time(NULL));
-
     for (int i = 0; i < count; i++)
     {
         A[i] = generate_new_hash();
@@ -31,11 +30,25 @@ void createHashKeys(int count)
 
 int* generate_new_hash()
 {
-    int *Ai = (int) malloc(m * sizeof(int));
-    
+    int *Ai = genArray(m);
     return Ai;
 }
 
+//Universal hash function with parameter a, returns hashed index
+int hash(int* a, int element)
+{
+    //convert element to array of size m (convert element to base m)??
+    int* E = changebase(element, m);
+    for(int i = 0; i < m; i++)
+    {
+
+    }
+}
+
+int* changebase(int element, int base)
+{
+
+}
 // m = No. of buckets, (or size of bit array in this case)
 // k = No. of different hash functions, a_0, a_1, ... , a_k where, a_i is a hash()
 
@@ -52,15 +65,18 @@ void createbloom(int buckets, int hashes)
 
 }
 
-void add();
-bool search();
+// void add();
+// bool search();
+//next greatest prime number()
+
 
 void add(int element)
 {
     for (int i = 0; i < k; i++)
     {   
         int* hashkey = A[i];
-        hash(hashkey, element);
+        int index = hash(hashkey, element);
+        bitArray[index] = true;
     }
 }
 
@@ -77,22 +93,3 @@ bool isPrime(int n)
         }
     }
 }
-
-
-
-
-void hash_template()
-{
-    //Inputs: Start of array, End of array, Data object
-    //Output: 1 index b/w start and end (inclusive)
-}
-
-//Returns the values of k hashes for any given input objects
-int* hashmain()
-{
-    //Inputs: Start of array, End of array, Data object
-    //Outputs: k indexes
-}
-
-
-
