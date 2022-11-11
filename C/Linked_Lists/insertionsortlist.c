@@ -1,57 +1,60 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 #include "node.c"
 
-nodePointer insertionsort(nodePointer HEAD);
-void find_insert(nodePointer HEAD, nodePointer movedNode, nodePointer prevMoved);
+nodePointer insertionsortlist(nodePointer HEAD);
+nodePointer insert_sorted(nodePointer head, nodePointer new);
 
-nodePointer insertionsort(nodePointer HEAD)
+nodePointer insertionsortlist(nodePointer HEAD)
 {
-    nodePointer current;
-    nodePointer prev;
+    // empty list
+    if(!HEAD) {return NULL;}
 
-    //sorted -- insert point -- sorted -- [current -- unsorted]
-    for (prev = HEAD, current = HEAD->next;
-         current != NULL;
-         prev = prev->next, current = current->next)
+    // single element list
+    if(HEAD->next == NULL) {return HEAD;}
+
+    // 2-element list onwards: create list second element onwards
+    nodePointer unsortedList_start = HEAD->next;
+
+    //sever head
+    HEAD->next = NULL;
+
+    //Loop through unsorted list
+    while(unsortedList_start != NULL)
     {
-        find_insert(HEAD, current, prev);
-        printf("called\n");
-        printLinkedList(HEAD);
+        nodePointer NextUnsorted = unsortedList_start->next;
+        // take first element of unsorted list, insert into sorted list
+        HEAD = insert_sorted(HEAD, unsortedList_start);
+        unsortedList_start = NextUnsorted;
     }
-
     return HEAD;
 }
 
-void find_insert(nodePointer HEAD, nodePointer movedNode, nodePointer prevMoved)
+nodePointer insert_sorted(nodePointer head, nodePointer new)
 {
-    if(!HEAD || !movedNode) {return;}
+    //Create Dummy Node before head to use as iterator
+    nodePointer iterNode = &((struct node) {0, head}); 
 
-    nodePointer prevNode = HEAD;
-    nodePointer nextNode;
+    while (iterNode->next != NULL && iterNode->next->val < new->val) 
+    {iterNode = iterNode->next;}
 
-    //                 movedNode ||
-    //                           \/
-    //(sorted) prevNode -- insert point -- nextNode (sorted)- [*was here*] - unsorted
+    //Assert: 
+    // Head ... iterNode < newNode
+    // newNode <= iterNode->next ... end_of_list
 
-    if (prevNode->next) {nextNode = prevNode->next;}
-    else                {nextNode = NULL;}
-
-    printf("Listprev: %p, Current: %p, Listnext: %p\n", prevNode, movedNode, nextNode);
-    printf("Started\n");
-    while((nextNode != NULL) && (prevNode->val < movedNode->val))
+    if (iterNode->next == head)
     {
-        prevNode = prevNode->next;
-        nextNode = nextNode->next;
-        printf("Listprev: %p, Current: %p, Listnext: %p\n", prevNode, movedNode, nextNode);
+        new->next = head;
+        return new;
     }
-
-    printf("Loop Exited \n");
-    if (nextNode != movedNode)
+    else
     {
-        prevMoved = movedNode->next;
-        prevNode->next  = movedNode;
-        movedNode->next = nextNode;
+        // Insert between iterNode and iterNode->next:
+        // ... iterNode -> new Node -> iterNode->next ...
+        nodePointer temp = iterNode->next;
+        iterNode->next = new;
+        new->next = temp;
+        return head;
     }
-    return;
 }

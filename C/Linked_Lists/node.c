@@ -18,7 +18,10 @@ void printLinkedList(nodePointer HEAD)
     nodePointer newNode = HEAD;
     while(newNode != NULL)
     {
-        printf("%d ", newNode->val);
+        char* chars;
+        if(newNode->next == NULL) {chars = ".";}
+        else {chars = ", ";}
+        printf("%d%s", newNode->val,chars);
         newNode = newNode->next;
     }
     printf("\n");
