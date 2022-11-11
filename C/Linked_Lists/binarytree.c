@@ -126,28 +126,28 @@ void showTree_postfix(bTree root) // LEFT RIGHT ROOT
 
 void printTree(bTree root, int type)
 {
+    void (*printfunc) (bTree root);
     switch (type)
     {
         case 1:     //In-order traversal
-            showTree_infix(root);
-            printf("\n");
+            printfunc = showTree_infix;
             break;
 
         case 2:     //Preorder traversal
-            showTree_prefix(root);
-            printf("\n");
+            printfunc = showTree_prefix;
             break;
 
         case 3:     //Postorder traversal
-            showTree_postfix(root);
-            printf("\n");
+            printfunc = showTree_postfix;
             break;
         
         default:    //Inorder as default
-            showTree_infix(root);
-            printf("\n");
+            printfunc = showTree_infix;
             break;
+
     }
+    printfunc(root);
+    printf("\n");
 }
 
 bTree genTree_Array(int l, int *A)
