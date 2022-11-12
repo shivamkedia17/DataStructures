@@ -60,7 +60,7 @@ array getArray_File(char *filename)
 
 int* genArray(int l)
 {
-    const int MAX = l<50?50:(50* l/50);
+    const int MAX = l<50?100:(100*l/100);
     // srandom(time(NULL));
     int *A = malloc(l * sizeof(int));
 

@@ -36,6 +36,7 @@ void extract_min(int *H, int l)
 int extract_min_pop(int *H, int l)
 {
     if (l < 0) {return -1;}
+
     swap(H, 0, l-1);
     heapify_down(H, l, 0);
 
@@ -62,17 +63,19 @@ void heapify_up(int *H, int l, int child)
 
 void heapify_down(int *H, int l, int parent)
 {
+    if (l < 0) {return;}
+
     if (isparent(parent,l))
     {
         int least = swapleast(H, l, parent);
-        heapify_down(H, l, least);
+        if (parent != least) {heapify_down(H, l, least);}
     }
     return;
 }
 
 int swapleast(int *H, int l, int p)
 {
-    if (l < 2) {return 1;}
+    if (p < 0 || p >= l) {return -1;}
 
     //find left and right child, 
     int left  = findchild_left (p);
@@ -82,4 +85,10 @@ int swapleast(int *H, int l, int p)
     int least = min(H, l, p, min(H, l, left, right));
     if (p != least) {swap(H, p, least);}
     return least;
+}
+
+void build_minheap_array(int*H, int l)
+{
+    int start = findlastparent(l); // get index of last parent
+    for (int i = start; i >= 0; i--) {heapify_down(H, l, i);}
 }

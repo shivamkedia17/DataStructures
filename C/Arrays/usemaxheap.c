@@ -21,22 +21,5 @@ int main(void)
     build_maxheap_array(H, l);
     printArray(l, H);
     
-    extract_max(H,l);// no errors
-    printArray(l,H);
-    
-
-    extract_max(H,l);
-    printArray(l,H);
-
-
-    extract_max(H,l);
-    printArray(l,H);
-
-
-
-    extract_max(H,l);
-    printArray(l,H);
-
-
     free(H);
 }
