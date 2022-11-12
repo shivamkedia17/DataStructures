@@ -54,5 +54,5 @@ void swap(int *H, int a, int b)
 int findlastparent(int l)
 {
     double p = (int) floor(log2(l));
-    return (int)(pow(2,p) - 1);
+    return (int)(pow(2,p) - 2);
 }

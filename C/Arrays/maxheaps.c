@@ -42,7 +42,7 @@ void heapify_down(int *H, int l, int parent)
     if (isparent(parent,l))
     {
         int greatest = swapgreatest(H, l, parent);
-        heapify_down(H, l, greatest);
+        if (parent != greatest) {heapify_down(H, l, greatest);}
     }
     return;
 }
@@ -87,8 +87,10 @@ int swapgreatest(int *H, int l, int p)
 void build_maxheap_array(int*H, int l)
 {
     int start = findlastparent(l); // get index of last parent
+    printf("Last Parent: %d\n", start);
     for (int i = start; i >= 0; i--) 
     {
+        printf("Leaf: %d\n", i);
         showTree(H, l);
         heapify_down(H, l, i);
         showTree(H, l);
