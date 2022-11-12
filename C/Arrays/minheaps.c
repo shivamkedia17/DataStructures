@@ -29,7 +29,7 @@ void extract_min(int *H, int l)
 {
     if (l < 2) {return;}
     swap(H, 0, l-1);
-    heapify_down(H, l, 0);
+    heapify_down(H, l-1, 0);
 }
 
 //returns new length of H
