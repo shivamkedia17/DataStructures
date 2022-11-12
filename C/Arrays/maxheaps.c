@@ -50,7 +50,7 @@ void heapify_down(int *H, int l, int parent)
 void extract_max(int *H, int l)
 {
     if (l < 2) {return;}
-    printf("Swapping: %d, %d", H[0],H[l-1]); // Everthing okay so far
+    // printf("Swapping: %d, %d", H[0],H[l-1]); // Everthing okay so far
     swap(H, 0, l-1); // Swap first and last elements
     // showTree(H, l);
     heapify_down(H, l-1, 0);
@@ -82,6 +82,17 @@ int swapgreatest(int *H, int l, int p)
     int greatest = max(H, l, p, max(H, l, left, right));
     if (p != greatest) {swap(H, p, greatest);}
     return greatest;
+}
+
+void build_maxheap_array(int*H, int l)
+{
+    int start = findlastparent(l); // get index of last parent
+    for (int i = start; i >= 0; i--) 
+    {
+        showTree(H, l);
+        heapify_down(H, l, i);
+        showTree(H, l);
+    }
 }
 
 

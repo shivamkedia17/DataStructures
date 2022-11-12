@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <math.h>
 
 int findchild_left(int p)
 {
@@ -47,4 +48,11 @@ void swap(int *H, int a, int b)
     int temp = H[a];
     H[a] = H[b];
     H[b] = temp;
+}
+
+// Finds last parent Node in tree 
+int findlastparent(int l)
+{
+    double p = (int) floor(log2(l));
+    return (int)(pow(2,p) - 1);
 }

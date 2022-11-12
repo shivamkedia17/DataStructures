@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "arrays.c"
-#include "maxheaps.c"
+#include "maxheaps.h"
 
 
 int main(void)
