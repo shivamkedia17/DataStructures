@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "showheap.c"
 #include "heaps.c"
 
 int swapgreatest(int *H, int l, int p);
@@ -40,8 +41,8 @@ void heapify_down(int *H, int l, int parent)
 
     if (isparent(parent,l))
     {
-        int least = swapgreatest(H, l, parent);
-        heapify_down(H, l, least);
+        int greatest = swapgreatest(H, l, parent);
+        heapify_down(H, l, greatest);
     }
     return;
 }
@@ -49,9 +50,10 @@ void heapify_down(int *H, int l, int parent)
 void extract_max(int *H, int l)
 {
     if (l < 2) {return;}
-
-    swap(H, 0, l-1);
-    heapify_down(H, l, 0);
+    printf("Swapping: %d, %d", H[0],H[l-1]); // Everthing okay so far
+    swap(H, 0, l-1); // Swap first and last elements
+    // showTree(H, l);
+    heapify_down(H, l-1, 0);
 }
 
 //returns new length of H
@@ -76,9 +78,10 @@ int swapgreatest(int *H, int l, int p)
     int left  = findchild_left (p);
     int right = findchild_right(p);
 
-    //swap with least of the 3
+    //swap with greatest of the 3
     int greatest = max(H, l, p, max(H, l, left, right));
     if (p != greatest) {swap(H, p, greatest);}
     return greatest;
 }
+
 

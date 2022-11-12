@@ -3,6 +3,7 @@
 #include "arrays.c"
 #include "maxheaps.c"
 
+
 int main(void)
 {
     int l = 12;
@@ -16,23 +17,24 @@ int main(void)
     }
     printArray(l,H);
     
-    extract_max(H,l);
-    printArray(l,H);
-
-    extract_max(H,l);
+    extract_max(H,l);// no errors
     printArray(l,H);
     
-    extract_max(H,l);
-    printArray(l,H);
 
-    extract_max(H,l);
-    printArray(l,H);
-
-    extract_max(H,l);
+    extract_max(H,l-1);
     printArray(l,H);
     
-    extract_max(H,l);
-    printArray(l,H);
+    // extract_max(H,l); // Decrement length of array accordingly if 
+    // printArray(l,H);
+
+    // extract_max(H,l);
+    // printArray(l,H);
+
+    // extract_max(H,l);
+    // printArray(l,H);
+    
+    // extract_max(H,l);
+    // printArray(l,H);
 
     // l = extract_max_pop(H, l);
     // printArray(l,H);

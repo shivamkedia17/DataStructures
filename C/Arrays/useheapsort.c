@@ -16,7 +16,8 @@ int main(void)
         H[i] = A[i];
     }
     printArray(l,H);
-
+    printf("\n"); 
+    showTree(A, l);
     H = heap_sort(H, l);
     
     printf("After Sorting: ");
