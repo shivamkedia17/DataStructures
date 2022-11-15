@@ -6,6 +6,7 @@ typedef struct treeNode
     int val;
     struct treeNode *left;
     struct treeNode *right;
+    struct treeNode *parent;
 }*bTree;
 
 bTree createNode(int value)
@@ -13,6 +14,7 @@ bTree createNode(int value)
     bTree Node  = malloc(sizeof(struct treeNode));
     Node->left  = NULL;
     Node->right = NULL;
+    Node->parent = NULL;
     Node->val   = value; 
     return Node;   
 }
@@ -31,6 +33,7 @@ bTree insert(bTree root, int value)
             if (root->left == NULL) 
             {
                 root->left = createNode(value);
+                root->left->parent = root;
                 return root->left;
             }
             else            
@@ -43,6 +46,7 @@ bTree insert(bTree root, int value)
             if (root->right == NULL) 
             {
                 root->right = createNode(value);
+                root->right->parent = root;
                 return root->right;
             }
             else            
@@ -159,4 +163,70 @@ bTree genTree_Array(int l, int *A)
         else        {bTree leaf = insert(Mainroot, A[i]);}
     }
     return Mainroot;
+}
+
+bTree findMin(bTree root)
+{
+    bTree current = root;
+    while (current->left) {current = current->left;}
+    return current;
+}
+
+bTree findMax(bTree root)
+{
+    bTree current = root;
+    while (current->right) {current = current->right;}
+    return current;
+}
+
+bTree find_successor(bTree Root, int val)
+{
+    if (!Root) {return NULL;}
+    bTree current = search(Root, val);
+    if (!current) {return NULL;}
+
+    bTree succ = NULL;
+    if (current->right != NULL) {succ = findMin(current->right);}
+    else 
+    {
+        bTree c = current  ; // current
+        bTree p = c->parent; // current's parent
+
+        while (p && p->right == c)
+        {
+            p = p->parent;
+            c = c->parent;
+        }
+        succ = p;
+    }
+    return succ;
+}
+
+bTree find_predecessor(bTree Root, int val)
+{
+    if (!Root) {return NULL;}
+    bTree current = search(Root, val);
+    if (!current) {return NULL;}
+
+    bTree pred = NULL;
+    if (current->left != NULL) {pred = findMax(current->left);}
+    else 
+    {
+        bTree c = current  ; // current
+        bTree p = c->parent; // current's parent
+
+        while (p && p->left == c)
+        {
+            p = p->parent;
+            c = c->parent;
+        }
+        pred = p;
+    }
+    return pred;
+}
+
+void printNode(bTree pNode)
+{
+    if(!pNode)  {printf("NULL node.\n");}
+    else        {printf("Address: %p, Val:%d\n", pNode, pNode->val);}
 }

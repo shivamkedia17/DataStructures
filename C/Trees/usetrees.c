@@ -9,14 +9,19 @@ int main(int argc, char** argv)
     int l = 7;
 
     bTree Root = genTree_Array(l, A);
-    printTree(Root, 2);
+    printTree(Root, 1);
 
     presentInsideTree(Root, 45);
 
     insert(Root, 45);
-    printTree(Root, 2);
+    printTree(Root, 1);
 
     presentInsideTree(Root, 45);
+
+    bTree pred = find_predecessor(Root, 45);
+    bTree succ = find_successor(Root, 45);
     
+    printNode(pred);
+    printNode(succ);
     freeTree(Root);
 }

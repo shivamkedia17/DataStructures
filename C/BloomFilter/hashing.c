@@ -1,10 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
 #include "arrays.c"
 
+
+
 /*
-// find prime such that largest element from Universe 
+// find prime such that largest element from Universe [Assume 64-bit integer]
     can be expressed as an m bit number in base p
 
     => next greatest prime number or something
@@ -18,6 +21,26 @@
 // (Dot product)  Hash function = <x,a> mod m -- Done
 
 */
+
+// f(x) = (x^m) - E
+double funct(int x, double m, double E)
+{
+    return (pow(x,m) - E);
+}
+
+// Input f(x), returns root X_0
+
+// long newtons_method(*funtion pointer*)
+{
+
+}
+
+unsigned int find_base(const int size)
+{
+    unsigned int base;
+    // base = newtons_method(size, max_element);
+    return base;
+}
 
 int* generate_hashkey(const unsigned int base, const unsigned int size)
 {
