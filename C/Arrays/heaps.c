@@ -39,7 +39,7 @@ int max(int *H, int l, int a, int b)
 
 bool isparent(int n, int l)
 {
-    if(findchild_right(n) >= l)     {return false;}
+    if(findchild_left(n) >= l)     {return false;}
     else                            {return true; }  
 }
 
@@ -53,6 +53,5 @@ void swap(int *H, int a, int b)
 // Finds last parent Node in tree 
 int findlastparent(int l)
 {
-    double p = (int) floor(log2(l));
-    return (int)(pow(2,p) - 2);
+    return (l-2)/2;
 }

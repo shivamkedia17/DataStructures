@@ -4,7 +4,7 @@
 #include "showheap.c"
 #include "heaps.c"
 
-int swapgreatest(int *H, int l, int p);
+int findgreatestchild(int *H, int l, int p);
 
 void heapify_up(int *H, int l, int child)
 {
@@ -41,8 +41,13 @@ void heapify_down(int *H, int l, int parent)
 
     if (isparent(parent,l))
     {
-        int greatest = swapgreatest(H, l, parent);
-        if (parent != greatest) {heapify_down(H, l, greatest);}
+        assert(isparent(parent,l) == true);
+        int greatest = findgreatestchild(H, l, parent);
+        if (parent != greatest) 
+        {
+            swap(H, parent, greatest);
+            heapify_down(H, l, greatest);
+        }
     }
     return;
 }
@@ -72,24 +77,35 @@ int extract_max_pop(int *H, int l)
     return newlen;
 }
 
-int swapgreatest(int *H, int l, int p)
+int findgreatestchild(int *H, int l, int p)
 {
     if (p < 0 || p >= l) {return -1;}
     
     //find left and right child, 
     int left  = findchild_left (p);
     int right = findchild_right(p);
-
     //swap with greatest of the 3
-    int greatest = max(H, l, p, max(H, l, left, right));
-    if (p != greatest) {swap(H, p, greatest);}
+    int greatest;
+    if (right >= l) {greatest = max(H, l, left, p);}
+    else            {greatest = max(H, l, p, max(H, l, left, right));}
     return greatest;
 }
 
 void build_maxheap_array(int*H, int l)
 {
     int start = findlastparent(l); // get index of last parent
-    for (int i = start; i >= 0; i--) {heapify_down(H, l, i);}
+    printf("l:%d\n",l);
+    for (int i = start; i >= 0; i--) 
+    {   
+        printf("start: %d, i: %d\n", start, i);
+        printf("Before Heapifying\n");
+        showTree(H, l);
+        printf("\n");
+        heapify_down(H, l, i);
+        printf("After Heapifying\n");
+        showTree(H, l);
+        printf("\n");
+    }   
 }
 
 
