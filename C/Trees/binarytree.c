@@ -21,44 +21,29 @@ bTree createNode(int value)
 
 bTree insert(bTree root, int value)
 {
-    if      (root==NULL)         
+    if      (root==NULL)     {return createNode(value);}
+    
+    if      (value < root->val)  
     {
-        root = createNode(value);
-        return root;
-    }
-    else
-    {
-        if      (value < root->val)  
+        if (root->left == NULL) 
         {
-            if (root->left == NULL) 
-            {
-                root->left = createNode(value);
-                root->left->parent = root;
-                return root->left;
-            }
-            else            
-            {
-                return insert(root->left, value);
-            }
+            root->left = createNode(value);
+            root->left->parent = root;
+            return root->left;
         }
-        else if (value > root->val)  
-        { 
-            if (root->right == NULL) 
-            {
-                root->right = createNode(value);
-                root->right->parent = root;
-                return root->right;
-            }
-            else            
-            {
-                return insert(root->right, value);
-            }
-        }
-        else                         
-        {
-            return root;
-        }
+        else            {return insert(root->left, value);}
     }
+    else if (value > root->val)  
+    { 
+        if (root->right == NULL) 
+        {
+            root->right = createNode(value);
+            root->right->parent = root;
+            return root->right;
+        }
+        else            {return insert(root->right, value);}
+    }
+    else                {return root;}
 }
 
 bTree search(bTree root, int value)

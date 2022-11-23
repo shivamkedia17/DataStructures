@@ -94,18 +94,7 @@ int findgreatestchild(int *H, int l, int p)
 void build_maxheap_array(int*H, int l)
 {
     int start = findlastparent(l); // get index of last parent
-    printf("l:%d\n",l);
-    for (int i = start; i >= 0; i--) 
-    {   
-        printf("start: %d, i: %d\n", start, i);
-        printf("Before Heapifying\n");
-        showTree(H, l);
-        printf("\n");
-        heapify_down(H, l, i);
-        printf("After Heapifying\n");
-        showTree(H, l);
-        printf("\n");
-    }   
+    for (int i = start; i >= 0; i--) {heapify_down(H, l, i);}   
 }
 
 
