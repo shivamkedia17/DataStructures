@@ -30,10 +30,6 @@ double funct(int x, double m, double E)
 
 // Input f(x), returns root X_0
 
-// long newtons_method(*funtion pointer*)
-{
-
-}
 
 unsigned int find_base(const int size)
 {
