@@ -1,10 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+enum Heavy{doublyleft = -2, left = -1, neutral = 0, right = 1, doublyright = 2};
+typedef enum Heavy Heavy;
+
 struct treeNode
 {
     int val;
     int height;
+    Heavy heavy;
     struct treeNode *left;
     struct treeNode *right;
     struct treeNode *parent;
@@ -12,54 +17,109 @@ struct treeNode
 
 typedef struct treeNode *avlTree;
 
-avlTree createNode(int value) // Todo
+void setHeight(avlTree Node)
+{
+    int rightHeight = -1;
+    int leftHeight = -1;
+
+    if (Node->right) {rightHeight = Node->right->height;}
+    if (Node->left)  {leftHeight  = Node->left->height; }
+
+    Node->height = *(max(&leftHeight, &rightHeight));
+    Node->heavy = rightHeight - leftHeight;
+}
+
+avlTree createNode(int value)
 {
     avlTree Node  = malloc(sizeof(struct treeNode));
     Node->left  = NULL;
     Node->right = NULL;
+    Node->parent = NULL;
     Node->val   = value; 
     return Node;   
 }
 
+//set height
+//set heavy
+//set parent
 avlTree insert(avlTree root, int value)
 {
-    if      (root==NULL)         
+    if      (root==NULL)     
     {
         root = createNode(value);
+        root->parent = NULL;
+        setHeight(root);
         return root;
     }
-    else
+    
+    if      (value < root->val)  
     {
-        if      (value < root->val)  
+        if (root->left == NULL) 
         {
-            if (root->left == NULL) 
-            {
-                root->left = createNode(value);
-                return root->left;
-            }
-            else            
-            {
-                return insert(root->left, value);
-            }
+            root->left = createNode(value);
+            root->left->parent = root;
+            setHeight(root->left);
+            setHeight(root);
+            return root->left;
         }
-        else if (value > root->val)  
-        { 
-            if (root->right == NULL) 
-            {
-                root->right = createNode(value);
-                return root->right;
-            }
-            else            
-            {
-                return insert(root->right, value);
-            }
-        }
-        else                         
+        else            {return insert(root->left, value);}
+    }
+    else if (value > root->val)  
+    { 
+        if (root->right == NULL) 
         {
-            return root;
+            root->right = createNode(value);
+            root->right->parent = root;
+            setHeight(root->right);
+            setHeight(root);
+            return root->right;
         }
+        else            {return insert(root->right, value);}
+    }
+    else                {return root;}
+}
+
+avlTree rotate(avlTree Node)
+{
+    if (!Node) {return NULL;}
+
+    if      (Node->heavy == right)
+    {
+        if  (Node->right->heavy == left) 
+        {/*doubly left rotn*/}
+        else
+        {/*left rotn*/}
+    }
+
+    else if (Node->heavy == left )
+    {
+        if  (Node->right->heavy == right) 
+        {/*doubly right rotn*/}
+        else
+        {/*right rotn*/}
     }
 }
+
+avlTree leftRotate(avlTree Node)
+{
+    if (!Node) {return NULL;}
+}
+
+avlTree rightRotate(avlTree Node)
+{
+    if (!Node) {return NULL;}
+}
+
+
+
+
+
+
+
+
+
+
+
 
 avlTree search(avlTree root, int value)
 {
@@ -165,9 +225,80 @@ avlTree genTree_Array(int l, int *A)
     return Mainroot;
 }
 
+avlTree findMin(avlTree root)
+{
+    avlTree current = root;
+    while (current->left) {current = current->left;}
+    return current;
+}
+
+avlTree findMax(avlTree root)
+{
+    avlTree current = root;
+    while (current->right) {current = current->right;}
+    return current;
+}
+
+avlTree find_successor(avlTree Root, int val)
+{
+    if (!Root) {return NULL;}
+    avlTree current = search(Root, val);
+    if (!current) {return NULL;}
+
+    avlTree succ = NULL;
+    if (current->right != NULL) {succ = findMin(current->right);}
+    else 
+    {
+        avlTree c = current  ; // current
+        avlTree p = c->parent; // current's parent
+
+        while (p && p->right == c)
+        {
+            p = p->parent;
+            c = c->parent;
+        }
+        succ = p;
+    }
+    return succ;
+}
+
+avlTree find_predecessor(avlTree Root, int val)
+{
+    if (!Root) {return NULL;}
+    avlTree current = search(Root, val);
+    if (!current) {return NULL;}
+
+    avlTree pred = NULL;
+    if (current->left != NULL) {pred = findMax(current->left);}
+    else 
+    {
+        avlTree c = current  ; // current
+        avlTree p = c->parent; // current's parent
+
+        while (p && p->left == c)
+        {
+            p = p->parent;
+            c = c->parent;
+        }
+        pred = p;
+    }
+    return pred;
+}
+
 avlTree findRoot(avlTree Node)
 {
     if (!Node)          {return NULL;}
     while (Node->parent != NULL) {Node = Node->parent;}  
     return Node;
+}
+
+void printNode(avlTree pNode)
+{
+    if(!pNode)  {printf("NULL node.\n");}
+    else        {printf("Address: %p, Val:%d\n", pNode, pNode->val);}
+}
+
+int* max(int* a , int* b)
+{
+    return (*a > *b ? a : b);
 }
