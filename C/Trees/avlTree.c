@@ -17,6 +17,15 @@ struct treeNode
 
 typedef struct treeNode *avlTree;
 
+void print2DUtil(avlTree root, int space);
+void print2D(avlTree root);
+avlTree insert(avlTree root, int value);
+avlTree fixup(avlTree mainRoot, avlTree Node);
+avlTree rotate(avlTree mainRoot, avlTree Node);
+avlTree leftRotate(avlTree root, avlTree x);
+avlTree rightRotate(avlTree root, avlTree y);
+int* max(int* a , int* b);
+
 void setHeight(avlTree Node)
 {
     int rightHeight = -1;
@@ -77,26 +86,17 @@ avlTree insert(avlTree root, int value)
 // used to update tree and respective pointers after an insertion:
     // set correct heights of parents
     // perform rotation if necessary
-avlTree insert_fix(avlTree mainRoot, avlTree Node)
+avlTree fixup(avlTree mainRoot, avlTree Node)
 {
     // Node is the address where the last insert() took place
+    avlTree p = Node->parent;
+    
+    setHeight(Node);
+    mainRoot = rotate(mainRoot, Node); 
 
-    avlTree p = Node;
-    while (p)
-    {
-        setHeight(p);
-        mainRoot = rotate(mainRoot, p); 
-        p = p->parent;
-    }
-
-    return mainRoot;
+    if (p)      {return fixup(mainRoot, p);}
+    else        {return mainRoot;}
 }
-
-
-
-
-
-
 
 // fix heights after rotation
 avlTree rotate(avlTree mainRoot, avlTree Node)
@@ -136,15 +136,6 @@ avlTree rotate(avlTree mainRoot, avlTree Node)
 
     return mainRoot;
 }
-
-
-
-
-
-
-
-
-
 
 avlTree leftRotate(avlTree root, avlTree x)
 {
@@ -293,7 +284,24 @@ avlTree genTree_Array(int l, int *A)
     for (int i = 0; i < l; i++)
     {
         if (i == 0) {Mainroot   = insert(Mainroot, A[i]);}
-        else        {avlTree leaf = insert(Mainroot, A[i]);}
+
+        else        {
+            printf("Before Inserting: \n");
+            print2D(Mainroot);
+            printf("\n");
+
+            avlTree leaf = insert(Mainroot, A[i]);
+            
+            printf("After Inserting: \n");
+            print2D(Mainroot);
+            printf("\n");
+
+            Mainroot = fixup(Mainroot, leaf);
+
+            printf("After Fixing: \n");
+            print2D(Mainroot);
+            printf("\n");
+        }
     }
     return Mainroot;
 }
