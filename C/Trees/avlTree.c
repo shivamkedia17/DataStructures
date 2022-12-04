@@ -376,6 +376,8 @@ int* max(int* a , int* b)
     return (*a > *b ? a : b);
 }
 
+
+// stolen code here onwards
 #define COUNT 10
 void print2DUtil(avlTree root, int space)
 {
