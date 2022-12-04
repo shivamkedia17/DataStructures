@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 
 enum Heavy{doublyleft = -2, left = -1, neutral = 0, balanced = 0, right = 1, doublyright = 2};
@@ -28,13 +29,15 @@ int* max(int* a , int* b);
 
 void setHeight(avlTree Node)
 {
+    if (!Node) {return;}
+
     int rightHeight = -1;
     int leftHeight = -1;
 
     if (Node->right) {rightHeight = Node->right->height;}
     if (Node->left)  {leftHeight  = Node->left->height; }
 
-    Node->height = *(max(&leftHeight, &rightHeight));
+    Node->height = *(max(&leftHeight, &rightHeight)) + 1;
     Node->heavy = rightHeight - leftHeight;
 }
 
@@ -57,6 +60,7 @@ avlTree insert(avlTree root, int value)
     {
         root = createNode(value);
         root->parent = NULL;
+        // setHeight(root);
         return root;
     }
     
@@ -66,6 +70,7 @@ avlTree insert(avlTree root, int value)
         {
             root->left = createNode(value);
             root->left->parent = root;
+            // setHeight(root->left);
             return root->left;
         }
         else            {return insert(root->left, value);}
@@ -76,6 +81,7 @@ avlTree insert(avlTree root, int value)
         {
             root->right = createNode(value);
             root->right->parent = root;
+            // setHeight(root->right);
             return root->right;
         }
         else            {return insert(root->right, value);}
@@ -88,11 +94,25 @@ avlTree insert(avlTree root, int value)
     // perform rotation if necessary
 avlTree fixup(avlTree mainRoot, avlTree Node)
 {
+    if (!mainRoot)  {return NULL;}
+    if (!Node)      {return mainRoot;}
     // Node is the address where the last insert() took place
     avlTree p = Node->parent;
     
     setHeight(Node);
-    mainRoot = rotate(mainRoot, Node); 
+
+    if (Node->heavy == doublyleft || Node->heavy == doublyright)
+        {mainRoot = rotate(mainRoot, Node);}
+    
+    // assert( (Node->left->height - Node->right->height == 1)  || 
+    //         (Node->left->height - Node->right->height == -1) || 
+    //         (Node->left->height - Node->right->height == 0)); 
+    
+    //
+    printf("After Fixing: \n");
+    print2D(mainRoot);
+    printf("\n");
+    //
 
     if (p)      {return fixup(mainRoot, p);}
     else        {return mainRoot;}
@@ -111,9 +131,10 @@ avlTree rotate(avlTree mainRoot, avlTree Node)
         {
             // first right rotate along Node's rightchild
             mainRoot = rightRotate(mainRoot, Node->right);
+            mainRoot = leftRotate(mainRoot, Node);
         }
         /* single left rotation */
-        if  (Node->right->heavy == right || Node->right->heavy == balanced) 
+        else if  (Node->right->heavy == right || Node->right->heavy == balanced) 
         {
             mainRoot = leftRotate(mainRoot, Node);
         }
@@ -126,9 +147,10 @@ avlTree rotate(avlTree mainRoot, avlTree Node)
         {
             // first left rotate along Node's rightchild
             mainRoot = leftRotate(mainRoot, Node->left);
+            mainRoot = rightRotate(mainRoot, Node);
         }
         /* single right rotation */
-        if  (Node->left->heavy == left || Node->left->heavy == balanced) 
+        else if  (Node->left->heavy == left || Node->left->heavy == balanced) 
         {
             mainRoot = rightRotate(mainRoot, Node);
         }
@@ -158,6 +180,9 @@ avlTree leftRotate(avlTree root, avlTree x)
     y->left = x;
     x->parent = y;
 
+    setHeight(x);
+    setHeight(y);
+
     return root;
 }
 
@@ -181,6 +206,9 @@ avlTree rightRotate(avlTree root, avlTree y)
 
     x->right = y;
     y->parent = x;
+
+    setHeight(y);
+    setHeight(x);
 
     return root;
 }
@@ -297,10 +325,6 @@ avlTree genTree_Array(int l, int *A)
             printf("\n");
 
             Mainroot = fixup(Mainroot, leaf);
-
-            printf("After Fixing: \n");
-            print2D(Mainroot);
-            printf("\n");
         }
     }
     return Mainroot;
@@ -386,7 +410,7 @@ int* max(int* a , int* b)
 
 
 // stolen code here onwards
-#define COUNT 10
+#define COUNT 7
 void print2DUtil(avlTree root, int space)
 {
     // Base case
@@ -404,7 +428,7 @@ void print2DUtil(avlTree root, int space)
     printf("\n");
     for (int i = COUNT; i < space; i++)
         printf(" ");
-    printf("%d\n", root->val);
+    printf("%d,%d,%d\n", root->val, root->height, root->heavy);
  
     // Process left child
     print2DUtil(root->left, space);

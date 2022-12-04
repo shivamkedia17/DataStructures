@@ -6,14 +6,23 @@
 int main(int argc, char** argv)
 {
     // int A[] = {4,2,1,3,6,5,7};
-    int A[] = {1,2,3,4,5,6,7};
-    int l = 7;
+    // int A[] = {1,2,3,4,5,6,7};
+    int l = 16;
+    int* A = genArray(l);
 
     avlTree Root = genTree_Array(l, A);
+    
+    // avlTree Root = NULL;
+    // Root = insert(Root, A[3]);
+    // Root = fixup(Root,  insert(Root, A[2]));
+    // Root = fixup(Root,  insert(Root, A[1]));
+    
+    // print2D(Root);
     printTree(Root, 1);
     printf("\n");
     print2D(Root);
     printf("\n");
 
+    free(A);
     freeTree(Root);
 }
