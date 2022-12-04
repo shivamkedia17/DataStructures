@@ -60,7 +60,6 @@ avlTree insert(avlTree root, int value)
     {
         root = createNode(value);
         root->parent = NULL;
-        // setHeight(root);
         return root;
     }
     
@@ -70,7 +69,6 @@ avlTree insert(avlTree root, int value)
         {
             root->left = createNode(value);
             root->left->parent = root;
-            // setHeight(root->left);
             return root->left;
         }
         else            {return insert(root->left, value);}
@@ -81,7 +79,6 @@ avlTree insert(avlTree root, int value)
         {
             root->right = createNode(value);
             root->right->parent = root;
-            // setHeight(root->right);
             return root->right;
         }
         else            {return insert(root->right, value);}
@@ -102,17 +99,7 @@ avlTree fixup(avlTree mainRoot, avlTree Node)
     setHeight(Node);
 
     if (Node->heavy == doublyleft || Node->heavy == doublyright)
-        {mainRoot = rotate(mainRoot, Node);}
-    
-    // assert( (Node->left->height - Node->right->height == 1)  || 
-    //         (Node->left->height - Node->right->height == -1) || 
-    //         (Node->left->height - Node->right->height == 0)); 
-    
-    //
-    printf("After Fixing: \n");
-    print2D(mainRoot);
-    printf("\n");
-    //
+    {mainRoot = rotate(mainRoot, Node);}
 
     if (p)      {return fixup(mainRoot, p);}
     else        {return mainRoot;}
@@ -312,18 +299,9 @@ avlTree genTree_Array(int l, int *A)
     for (int i = 0; i < l; i++)
     {
         if (i == 0) {Mainroot   = insert(Mainroot, A[i]);}
-
-        else        {
-            printf("Before Inserting: \n");
-            print2D(Mainroot);
-            printf("\n");
-
+        else        
+        {
             avlTree leaf = insert(Mainroot, A[i]);
-            
-            printf("After Inserting: \n");
-            print2D(Mainroot);
-            printf("\n");
-
             Mainroot = fixup(Mainroot, leaf);
         }
     }
@@ -410,7 +388,7 @@ int* max(int* a , int* b)
 
 
 // stolen code here onwards
-#define COUNT 7
+#define COUNT 3
 void print2DUtil(avlTree root, int space)
 {
     // Base case
@@ -428,7 +406,7 @@ void print2DUtil(avlTree root, int space)
     printf("\n");
     for (int i = COUNT; i < space; i++)
         printf(" ");
-    printf("%d,%d,%d\n", root->val, root->height, root->heavy);
+    printf("%d\n", root->val);
  
     // Process left child
     print2DUtil(root->left, space);
