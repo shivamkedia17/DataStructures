@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 
-enum Heavy{doublyleft = -2, left = -1, neutral = 0, right = 1, doublyright = 2};
+enum Heavy{doublyleft = -2, left = -1, neutral = 0, balanced = 0, right = 1, doublyright = 2};
 typedef enum Heavy Heavy;
 
 struct treeNode
@@ -48,7 +48,6 @@ avlTree insert(avlTree root, int value)
     {
         root = createNode(value);
         root->parent = NULL;
-        setHeight(root);
         return root;
     }
     
@@ -58,8 +57,6 @@ avlTree insert(avlTree root, int value)
         {
             root->left = createNode(value);
             root->left->parent = root;
-            setHeight(root->left);
-            setHeight(root);
             return root->left;
         }
         else            {return insert(root->left, value);}
@@ -70,8 +67,6 @@ avlTree insert(avlTree root, int value)
         {
             root->right = createNode(value);
             root->right->parent = root;
-            setHeight(root->right);
-            setHeight(root);
             return root->right;
         }
         else            {return insert(root->right, value);}
@@ -79,47 +74,125 @@ avlTree insert(avlTree root, int value)
     else                {return root;}
 }
 
-avlTree rotate(avlTree Node)
+// used to update tree and respective pointers after an insertion:
+    // set correct heights of parents
+    // perform rotation if necessary
+avlTree insert_fix(avlTree mainRoot, avlTree Node)
 {
-    if (!Node) {return NULL;}
+    // Node is the address where the last insert() took place
 
-    if      (Node->heavy == right)
+    avlTree p = Node;
+    while (p)
     {
-        if  (Node->right->heavy == left) 
-        {/*doubly left rotn*/}
-        else
-        {/*left rotn*/}
+        setHeight(p);
+        mainRoot = rotate(mainRoot, p); 
+        p = p->parent;
     }
 
-    else if (Node->heavy == left )
+    return mainRoot;
+}
+
+
+
+
+
+
+
+// fix heights after rotation
+avlTree rotate(avlTree mainRoot, avlTree Node)
+{
+    if (!mainRoot)  {return NULL;}
+    if (!Node)      {return mainRoot;}
+
+    if      (Node->heavy == doublyright)
     {
-        if  (Node->right->heavy == right) 
-        {/*doubly right rotn*/}
-        else
-        {/*right rotn*/}
+        /*doubly rotn*/
+        if (Node->right->heavy == left)
+        {
+            // first right rotate along Node's rightchild
+            mainRoot = rightRotate(mainRoot, Node->right);
+        }
+        /* single left rotation */
+        if  (Node->right->heavy == right || Node->right->heavy == balanced) 
+        {
+            mainRoot = leftRotate(mainRoot, Node);
+        }
     }
+
+    else if (Node->heavy == doublyleft)
+    {
+        /*doubly rotn*/
+        if (Node->left->heavy == right)
+        {
+            // first left rotate along Node's rightchild
+            mainRoot = leftRotate(mainRoot, Node->left);
+        }
+        /* single right rotation */
+        if  (Node->left->heavy == left || Node->left->heavy == balanced) 
+        {
+            mainRoot = rightRotate(mainRoot, Node);
+        }
+    }
+
+    return mainRoot;
 }
 
-avlTree leftRotate(avlTree Node)
+
+
+
+
+
+
+
+
+
+avlTree leftRotate(avlTree root, avlTree x)
 {
-    if (!Node) {return NULL;}
+    if (!x) {return NULL;}
+
+    // y is initially the right child of x, 
+    // it becomes the parent of x
+
+    avlTree p = x->parent;
+    avlTree y = x->right;
+
+    x->right = y->left; 
+    if (y->left) {y->left->parent = x;}
+
+    y->parent = p;
+    if      (!p)             {root = y;}
+    else if (p->left  == x)  {p->left = y;}
+    else                     {p->right = y;}
+
+    y->left = x;
+    x->parent = y;
+
+    return root;
 }
 
-avlTree rightRotate(avlTree Node)
+avlTree rightRotate(avlTree root, avlTree y)
 {
-    if (!Node) {return NULL;}
+    if (!y) {return NULL;}
+
+    // y is initially the left child of x, 
+    // it becomes the parent of x
+
+    avlTree p = y->parent;
+    avlTree x = y->left;
+
+    y->left = x->right; 
+    if (x->right) {x->right->parent = y;}
+
+    x->parent = p;
+    if      (!p)             {root = x;}
+    else if (p->right  == y)  {p->right = x;}
+    else                     {p->left = x;}
+
+    x->right = y;
+    y->parent = x;
+
+    return root;
 }
-
-
-
-
-
-
-
-
-
-
-
 
 avlTree search(avlTree root, int value)
 {
@@ -301,4 +374,35 @@ void printNode(avlTree pNode)
 int* max(int* a , int* b)
 {
     return (*a > *b ? a : b);
+}
+
+#define COUNT 10
+void print2DUtil(avlTree root, int space)
+{
+    // Base case
+    if (root == NULL)
+        return;
+ 
+    // Increase distance between levels
+    space += COUNT;
+ 
+    // Process right child first
+    print2DUtil(root->right, space);
+ 
+    // Print current node after space
+    // count
+    printf("\n");
+    for (int i = COUNT; i < space; i++)
+        printf(" ");
+    printf("%d\n", root->val);
+ 
+    // Process left child
+    print2DUtil(root->left, space);
+}
+ 
+// Wrapper over print2DUtil()
+void print2D(avlTree root)
+{
+    // Pass initial space count as 0
+    print2DUtil(root, 0);
 }
