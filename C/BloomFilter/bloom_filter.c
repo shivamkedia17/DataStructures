@@ -1,12 +1,47 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <math.h>
+#include <assert.h>
 #include "arrays.c"
 
-int m;
-int k;
 bool *bitArray;
 int **A;
+
+
+// 
+int find_prime_file(int m, char* filename)
+{
+    FILE* fp = fopen(filename, "w");
+    fclose(fp);
+    return 3203;
+}
+
+int main ()
+{
+    int size; // given size of bit array
+    char* fn; // file containing primes before 1,100,000
+    int m = find_prime_file(m, fn); // Size of bit array we choose
+    int r = 1; // Size of vector
+    int *K = NULL;
+
+    int key = 129834708237402; //random key for now, take input ********
+
+    
+    if (pow(m, r) <= key) {r = set_r(key, m);} //Set R
+    int *K = realloc(K, r * sizeof(int));  
+    
+
+}
+
+int set_r(int key, int m)
+{
+    if (m == 0)     {return -1;}
+    int r;
+    for(r = 1; key > 0; r++)    {key = key/m;}
+    return r;
+}
 
 //generates a bit array of size m
 void generateEmptyArray(int size)
@@ -45,9 +80,21 @@ int hash(int* a, int element)
     }
 }
 
-int* changebase(int element, int base)
-{
 
+/// @brief Changes 'key' in base 10 to a vector with digits in base m
+/// @param key int element 
+/// @param m new base
+/// @param K (int vector) <- key in base m
+/// @param r size of int vector
+void changebase(int key, int m, int *K, int r)
+{
+    if (m == 0)     {return -1;}
+    for (int i = 0; i < r; i++)
+    {
+        K[i] = key % m; // Possible Values 0...m-1
+        assert(K[i] < m);
+        key = key/m;
+    }
 }
 // m = No. of buckets, (or size of bit array in this case)
 // k = No. of different hash functions, a_0, a_1, ... , a_k where, a_i is a hash()

@@ -1,34 +1,10 @@
+#pragma once
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <math.h>
+#include <assert.h>
 #include "arrays.c"
-
-
-
-/*
-// find prime such that largest element from Universe [Assume 64-bit integer]
-    can be expressed as an m bit number in base p
-
-    => next greatest prime number or something
-
-    log E base p ~ m digit number
-
-    Let this number be x.
-
-// generate random number of m digits (in base p) -- Done
-
-// (Dot product)  Hash function = <x,a> mod m -- Done
-
-*/
-
-// f(x) = (x^m) - E
-double funct(int x, double m, double E)
-{
-    return (pow(x,m) - E);
-}
-
-// Input f(x), returns root X_0
 
 
 unsigned int find_base(const int size)
@@ -50,15 +26,17 @@ int* generate_hashkey(const unsigned int base, const unsigned int size)
     return A; 
 }
 
-int dotproduct(unsigned int* A, const unsigned int size_A, unsigned int* B, const unsigned int size_B)
+/// @brief Find <A,B> given vectors A and B. Assuming Sizes of A and B are the same
+/// @param A 1st Vector
+/// @param B 2nd Vector 
+/// @param r length of both vectors
+/// @return <A,B>
+int dotproduct(unsigned int* A, unsigned int* B, const unsigned int r)
 {
-    //We shall return the remainder, so the value returned will never be negative.
-
-    if (size_A != size_B)   {return -1;} // => Error
-    if (size_A == 0)        {return 0;} // Dot product of zero vectors is 0.
+    if (r == 0)        {return 0;} // Dot product of zero vectors is 0.
 
     unsigned int sum = 0;
-    for (int i = 0; i < size_A; i++)
+    for (int i = 0; i < r; i++)
     {
         sum = sum + (A[i] * B[i]);
     }
@@ -66,8 +44,15 @@ int dotproduct(unsigned int* A, const unsigned int size_A, unsigned int* B, cons
     return (sum);
 }
 
-unsigned int hash(unsigned int* key, unsigned int* E, const unsigned int index_count)
+/// @brief Implement Dot-Product Hash
+/// @param K Vector of Size r with Ki 0...r-1
+/// @param A Vector of Size r with Ai 0...r-1
+/// @param r Size of the two vectors
+/// @param m Size of hash-table
+/// @return <K,A> mod m
+unsigned int hash(unsigned int* K, unsigned int* A, const unsigned int r, int m)
 {
-    int index = dotproduct(key, index_count, E, index_count) % index_count;
-    return index_count;
+    // Returned remainder will never be negative.
+    int index = dotproduct(K, A, r) % m;
+    return index;
 }
