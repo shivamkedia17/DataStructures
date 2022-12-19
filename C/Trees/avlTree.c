@@ -86,6 +86,20 @@ avlTree insert(avlTree root, int value)
     else                {return root;}
 }
 
+// assuming that the node to be deleted exists in tree
+avlTree delete(avlTree mainRoot, avlTree Node)
+{
+    if (!mainRoot) {return NULL;}
+
+    // if Root is deleted:
+
+    // if Node is NOT root:
+        //check whether Node is left or right child
+        // set Dynamic = left/right
+    if (Node->right == NULL && Node->left == NULL) {Node->parent->"Dynamic"}
+}
+
+
 // used to update tree and respective pointers after an insertion:
     // set correct heights of parents
     // perform rotation if necessary
