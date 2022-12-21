@@ -36,7 +36,7 @@ void create_filter(unsigned int size, unsigned int count)
 {
     char* filename = "numbers.txt";         // file containing primes before 1,100,000
     m = find_prime_file(size, filename);    // Size of bit array we choose
-    r = 1;                                  // Size of vector
+    r = set_r(INT32_MAX, m);                   // Size of vector
     hashes = create_hashvectors(count, m, r);
     filter = generateBitArray(m);
 }

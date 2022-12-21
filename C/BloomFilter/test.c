@@ -5,7 +5,7 @@ int main()
     unsigned int size = 20;
     count = 3;
     create_filter(size, count);
-    int set[] = {45,95,60,345,6932,4231421, 5, 11, 3};
+    int set[] = {45,95,60,345,-6932,4231421, 5, 11, 3};
     int set_size = 9;
     for (int i = 0; i < set_size; i++)
     {
