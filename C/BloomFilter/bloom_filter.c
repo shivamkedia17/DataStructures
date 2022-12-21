@@ -12,7 +12,8 @@ unsigned int m;
 unsigned int r;
 unsigned int* * hashes;
 unsigned int count;
-bool *filter;
+bool *filter_inserted;
+bool *filter_deleted;
 
 //generates a bit array of size m
 bool* generateBitArray(unsigned int m)
@@ -38,22 +39,8 @@ void create_filter(unsigned int size, unsigned int count)
     m = find_prime_file(size, filename);    // Size of bit array we choose
     r = set_r(INT32_MAX, m);                   // Size of vector
     hashes = create_hashvectors(count, m, r);
-    filter = generateBitArray(m);
-}
-
-void resize_vectors(int key)
-{
-    if (pow(m, r) <= key) // Resize hash-vectors
-    {
-        unsigned int prev_r = r;
-        r = set_r(key, m);
-
-        for (int i = 0; i < count; i++)
-        {
-            hashes[i] = realloc(hashes[i], r * sizeof(int));
-            hashes[i] = expand_hash(hashes[i], m, prev_r, r);    
-        }
-    }
+    filter_inserted = generateBitArray(m);
+    filter_deleted  = generateBitArray(m);
 }
 
 unsigned int* use_hash(int key)
@@ -76,14 +63,24 @@ unsigned int* use_hash(int key)
 
 void insert(int key)
 {
-    resize_vectors(key); // Make sure key fits into r-digits in base m  
     unsigned int* indices = use_hash(key);
     for (int i = 0; i < count; i++) 
     {
-        filter[indices[i]] = true;
+        filter_inserted[indices[i]] = true;
     }
     free(indices);
 }
+
+void delete(int key)
+{
+    unsigned int* indices = use_hash(key);
+    for (int i = 0; i < count; i++) 
+    {
+        filter_deleted[indices[i]] = true;
+    }
+    free(indices);
+}
+
 
 void print_search_result(bool result, int key)
 {
@@ -97,16 +94,30 @@ bool search(int key)
 {
     if (pow(m, r) <= key) {return false;} // Such a large key has never been seen
 
-    bool result = true; // Indicates key is probably in filter
+    bool inserted = true; // Indicates key is probably in filter
+    bool deleted = true; // Indicates key is probably in filter
+    bool result;
+
     unsigned int* indices = use_hash(key);
+
     for (int i = 0; i < count; i++) 
     {
-        if (filter[indices[i]] == false) 
+        if (filter_inserted[indices[i]] == false)
         {
-            result = false; // Indicates key is DEFINITELY not in filter
+            inserted = false; // Indicates key is DEFINITELY not in filter
             break;
         }
     }
+    for (int i = 0; i < count; i++) 
+    {
+        if (filter_deleted[indices[i]] == false)
+        {
+            deleted = false; // Indicates key is DEFINITELY not in filter
+            break;
+        }
+    }
+
+    result = deleted + inserted;
 
     free(indices);
     print_search_result(result, key);
@@ -134,7 +145,8 @@ void printArray(int* A, unsigned int l)
 
 void free_everything()
 {
-    free(filter);
+    free(filter_inserted);
+    free(filter_deleted);
     for (int i = 0; i < count; i++)     {free(hashes[i]);}
     free(hashes);
 }

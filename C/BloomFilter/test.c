@@ -2,8 +2,8 @@
 
 int main()
 {
-    unsigned int size = 20;
-    count = 3;
+    unsigned int size = 500;
+    count = 9;
     create_filter(size, count);
     int set[] = {45,95,60,345,-6932,4231421, 5, 11, 3};
     int set_size = 9;
@@ -14,7 +14,7 @@ int main()
         // printf("\n");
     }
 
-    print_filter(filter, m);
+    print_filter(filter_inserted, m);    
 
     for (int i = 0; i < set_size; i++)
     {
