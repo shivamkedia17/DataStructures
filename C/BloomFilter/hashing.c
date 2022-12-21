@@ -61,17 +61,6 @@ unsigned int* generate_hash(unsigned int m,  unsigned int r)
     return A; 
 }
 
-// expand previous hash to new r
-unsigned int* expand_hash(unsigned int* A, unsigned int m,  unsigned int prev_r, unsigned int r)
-{
-    if (A == NULL)   {return NULL;}
-    if (prev_r == r) {return A;}
-
-    assert(prev_r < r);
-    for (int i = prev_r; i < r; i++) {A[i] = random() % m;}
-    return A; 
-}
-
 /// @brief Find <A,B> given vectors A and B. Assuming Sizes of A and B are the same
 /// @param A 1st Vector
 /// @param B 2nd Vector 

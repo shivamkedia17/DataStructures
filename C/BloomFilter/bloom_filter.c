@@ -6,8 +6,6 @@
 #include <assert.h>
 #include "hashing.c"
 
-// Usage:
-
 unsigned int m;
 unsigned int r;
 unsigned int* * hashes;
@@ -41,20 +39,6 @@ void create_filter(unsigned int size, unsigned int count)
     filter = generateBitArray(m);
 }
 
-void resize_vectors(int key)
-{
-    if (pow(m, r) <= key) // Resize hash-vectors
-    {
-        unsigned int prev_r = r;
-        r = set_r(key, m);
-
-        for (int i = 0; i < count; i++)
-        {
-            hashes[i] = realloc(hashes[i], r * sizeof(int));
-            hashes[i] = expand_hash(hashes[i], m, prev_r, r);    
-        }
-    }
-}
 
 unsigned int* use_hash(int key)
 {
@@ -76,7 +60,6 @@ unsigned int* use_hash(int key)
 
 void insert(int key)
 {
-    resize_vectors(key); // Make sure key fits into r-digits in base m  
     unsigned int* indices = use_hash(key);
     for (int i = 0; i < count; i++) 
     {
