@@ -58,7 +58,7 @@ unsigned int* use_hash(int key)
     return indices;
 }
 
-void insert(int key)
+void insert_filter(int key)
 {
     unsigned int* indices = use_hash(key);
     for (int i = 0; i < count; i++) 
@@ -76,7 +76,7 @@ void print_search_result(bool result, int key)
     else        {printf ("%d is NOT In the Set.\n", key);}
 }
 
-bool search(int key)
+bool search_filter(int key)
 {
     if (pow(m, r) <= key) {return false;} // Such a large key has never been seen
 
