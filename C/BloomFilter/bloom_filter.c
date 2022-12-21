@@ -4,139 +4,137 @@
 #include <stdbool.h>
 #include <math.h>
 #include <assert.h>
-#include "arrays.c"
+#include "hashing.c"
 
-bool *bitArray;
-int **A;
+// Usage:
 
-
-// 
-int find_prime_file(int m, char* filename)
-{
-    FILE* fp = fopen(filename, "w");
-    fclose(fp);
-    return 3203;
-}
-
-int main ()
-{
-    int size; // given size of bit array
-    char* fn; // file containing primes before 1,100,000
-    int m = find_prime_file(m, fn); // Size of bit array we choose
-    int r = 1; // Size of vector
-    int *K = NULL;
-
-    int key = 129834708237402; //random key for now, take input ********
-
-    
-    if (pow(m, r) <= key) {r = set_r(key, m);} //Set R
-    int *K = realloc(K, r * sizeof(int));  
-    
-
-}
-
-int set_r(int key, int m)
-{
-    if (m == 0)     {return -1;}
-    int r;
-    for(r = 1; key > 0; r++)    {key = key/m;}
-    return r;
-}
+unsigned int m;
+unsigned int r;
+unsigned int* * hashes;
+unsigned int count;
+bool *filter;
 
 //generates a bit array of size m
-void generateEmptyArray(int size)
+bool* generateBitArray(unsigned int m)
 {
-    bitArray = (bool) malloc(size* (sizeof(bool)));
-    for (int i = 0; i < size; i++)
+    bool *b = (bool *) calloc(m, sizeof(bool));
+    // for (int i = 0; i < m; i++) {b[i] = false;} // TEST IF NEEDED
+    return b;
+}
+
+unsigned int** create_hashvectors(unsigned int count, unsigned int m, unsigned int r)
+{
+    unsigned int** hashes = (unsigned int* *) calloc(count, sizeof(unsigned int *));
+    for (int i = 0; i < count; i++) {hashes[i] = generate_hash(m, r);}
+    return hashes;
+}
+
+/// @brief Create Bloom filter with necessary parameters
+/// @param size Size input by the user, m -> prime number chosen as size.
+/// @param count No. of hash functions
+void create_filter(unsigned int size, unsigned int count)
+{
+    char* filename = "numbers.txt";         // file containing primes before 1,100,000
+    m = find_prime_file(size, filename);    // Size of bit array we choose
+    r = 1;                                  // Size of vector
+    hashes = create_hashvectors(count, m, r);
+    filter = generateBitArray(m);
+}
+
+void resize_vectors(int key)
+{
+    if (pow(m, r) <= key) // Resize hash-vectors
     {
-        bitArray[i] = false;
-    }
-}
+        unsigned int prev_r = r;
+        r = set_r(key, m);
 
-void createHashKeys(int count)
-{
-    A = (int*) malloc(count * sizeof(int*));
-    srandom(time(NULL));
-    for (int i = 0; i < count; i++)
-    {
-        A[i] = generate_new_hash();
-    }
-}
-
-int* generate_new_hash()
-{
-    int *Ai = genArray(m);
-    return Ai;
-}
-
-//Universal hash function with parameter a, returns hashed index
-int hash(int* a, int element)
-{
-    //convert element to array of size m (convert element to base m)??
-    int* E = changebase(element, m);
-    for(int i = 0; i < m; i++)
-    {
-
-    }
-}
-
-
-/// @brief Changes 'key' in base 10 to a vector with digits in base m
-/// @param key int element 
-/// @param m new base
-/// @param K (int vector) <- key in base m
-/// @param r size of int vector
-void changebase(int key, int m, int *K, int r)
-{
-    if (m == 0)     {return -1;}
-    for (int i = 0; i < r; i++)
-    {
-        K[i] = key % m; // Possible Values 0...m-1
-        assert(K[i] < m);
-        key = key/m;
-    }
-}
-// m = No. of buckets, (or size of bit array in this case)
-// k = No. of different hash functions, a_0, a_1, ... , a_k where, a_i is a hash()
-
-// a_i is an m digit number in base m
-// so a_i could be an array with m digits each having a value from 0 to m-1
-
-// Key = x with digits x_0,
-// Hash(x) = Sum (a_i * x)
-
-void createbloom(int buckets, int hashes)
-{
-    m = buckets;
-    k = hashes;
-
-}
-
-// void add();
-// bool search();
-//next greatest prime number()
-
-
-void add(int element)
-{
-    for (int i = 0; i < k; i++)
-    {   
-        int* hashkey = A[i];
-        int index = hash(hashkey, element);
-        bitArray[index] = true;
-    }
-}
-
-
-bool isPrime(int n)
-{
-    if (n < 2) {return false;}
-    int i;
-    for (i = 2; i <= n/i; i++) 
-    {
-        if (n%i == 0) 
+        for (int i = 0; i < count; i++)
         {
-            return true;
+            hashes[i] = realloc(hashes[i], r * sizeof(int));
+            hashes[i] = expand_hash(hashes[i], m, prev_r, r);    
         }
     }
+}
+
+unsigned int* use_hash(int key)
+{
+    unsigned int* indices = (unsigned int *) calloc(count, sizeof(unsigned int));
+
+    unsigned int *K = (unsigned int *) calloc(r, sizeof(unsigned int));
+    changebase(key, m, K, r);
+
+    for (int i = 0; i < count; i++)
+    {   
+        unsigned int index = hash(K, hashes[i], r, m);
+        // printf("Key: %d, Index: %d\n", key, index);
+        indices[i] = index;
+    }
+
+    free(K);
+    return indices;
+}
+
+void insert(int key)
+{
+    resize_vectors(key); // Make sure key fits into r-digits in base m  
+    unsigned int* indices = use_hash(key);
+    for (int i = 0; i < count; i++) 
+    {
+        filter[indices[i]] = true;
+    }
+    free(indices);
+}
+
+void print_search_result(bool result, int key)
+{
+    // printf("%s\n", bool ? "true" : "false");
+
+    if (result) {printf ("%d is Probably In the Set.\n", key);}
+    else        {printf ("%d is NOT In the Set.\n", key);}
+}
+
+bool search(int key)
+{
+    if (pow(m, r) <= key) {return false;} // Such a large key has never been seen
+
+    bool result = true; // Indicates key is probably in filter
+    unsigned int* indices = use_hash(key);
+    for (int i = 0; i < count; i++) 
+    {
+        if (filter[indices[i]] == false) 
+        {
+            result = false; // Indicates key is DEFINITELY not in filter
+            break;
+        }
+    }
+
+    free(indices);
+    print_search_result(result, key);
+    return(result);
+}
+
+void print_filter(bool *b, unsigned int m)
+{
+    for (int i=0; i < m; i++)
+    {   
+        printf(i? ", %d":"%d", b[i]);
+    }
+    printf(".\n");
+}
+
+void printArray(int* A, unsigned int l)
+{
+    //printf("l%d\n",l);
+    for (int i=0; i < l; i++)
+    {   
+        printf(i? ", %d":"%d", A[i]);
+    }
+    printf(".\n");
+}  
+
+void free_everything()
+{
+    free(filter);
+    for (int i = 0; i < count; i++)     {free(hashes[i]);}
+    free(hashes);
 }

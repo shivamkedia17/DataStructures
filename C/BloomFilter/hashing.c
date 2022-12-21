@@ -4,25 +4,71 @@
 #include <stdbool.h>
 #include <math.h>
 #include <assert.h>
-#include "arrays.c"
 
-
-unsigned int find_base(const int size)
+// get next largest prime number from a file, ONCE
+unsigned int find_prime_file(unsigned int size, char* filename)
 {
-    unsigned int base;
-    // base = newtons_method(size, max_element);
-    return base;
+    FILE* fp = fopen(filename, "r");
+    int p = 0;
+    if (fp == NULL) {return 0;}
+    while (1)
+    {
+        fscanf(fp, "%d\n", &p);
+        if (p >= size) {break;}
+    } 
+    fclose(fp);
+    return p;
 }
 
-int* generate_hashkey(const unsigned int base, const unsigned int size)
+// get the size of the key-vector (for hashing)
+unsigned int set_r(int key, unsigned int m)
+{
+    if (m == 0)     {return -1;}
+    unsigned int r;
+    for(r = 1; key > 0; r++)    {key = key/m;}
+    assert(pow(m,r) > key);
+    return r;
+}
+
+/// @brief Changes 'key' in base 10 to a vector with digits in base m
+/// @param key int element 
+/// @param m new base
+/// @param K (int vector) <- key in base m
+/// @param r size of int vector
+void changebase(int key, unsigned int m, unsigned int *K, unsigned int r)
+{
+    if (m == 0)     {return;}
+    for (int i = r-1; i >= 0; i--)
+    {
+        K[i] = key % m; // Possible Values 0...m-1
+        assert(K[i] < m);
+        key = key/m;
+    }
+}
+
+// generate an A[] of size r, with each 0 ≤ A_i ≤ m-1
+unsigned int* generate_hash(unsigned int m,  unsigned int r)
 {
     // Please seed before calling 
+    unsigned int *A = (unsigned int*) calloc(r, sizeof(unsigned int));
 
-    unsigned int *A = (unsigned int*) malloc(size * sizeof(unsigned int));
+    //generate a random number in range(0, m)
+    for (int i = 0; i < r; i++)
+    {   
+        A[i] = random() % m;
+        assert(A[i] < m);
+    }
+    return A; 
+}
 
-    //generate a random number in range(0, base)
+// expand previous hash to new r
+unsigned int* expand_hash(unsigned int* A, unsigned int m,  unsigned int prev_r, unsigned int r)
+{
+    if (A == NULL)   {return NULL;}
+    if (prev_r == r) {return A;}
 
-    for (int i = 0; i < size; i++) {A[i] = random() % base;}
+    assert(prev_r < r);
+    for (int i = prev_r; i < r; i++) {A[i] = random() % m;}
     return A; 
 }
 
@@ -31,15 +77,12 @@ int* generate_hashkey(const unsigned int base, const unsigned int size)
 /// @param B 2nd Vector 
 /// @param r length of both vectors
 /// @return <A,B>
-int dotproduct(unsigned int* A, unsigned int* B, const unsigned int r)
+unsigned int dotproduct(unsigned int* A, unsigned int* B, const unsigned int r)
 {
     if (r == 0)        {return 0;} // Dot product of zero vectors is 0.
 
     unsigned int sum = 0;
-    for (int i = 0; i < r; i++)
-    {
-        sum = sum + (A[i] * B[i]);
-    }
+    for (int i = 0; i < r; i++) {sum = sum + (A[i] * B[i]);}
 
     return (sum);
 }
@@ -53,6 +96,8 @@ int dotproduct(unsigned int* A, unsigned int* B, const unsigned int r)
 unsigned int hash(unsigned int* K, unsigned int* A, const unsigned int r, int m)
 {
     // Returned remainder will never be negative.
-    int index = dotproduct(K, A, r) % m;
+    unsigned int index = dotproduct(K, A, r) % m;
+    assert(index >= 0 && index < m);
     return index;
 }
+
