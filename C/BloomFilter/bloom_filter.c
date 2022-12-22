@@ -29,12 +29,13 @@ unsigned int** create_hashvectors(unsigned int count, unsigned int m, unsigned i
 
 /// @brief Create Bloom filter with necessary parameters
 /// @param size Size input by the user, m -> prime number chosen as size.
-/// @param count No. of hash functions
-void create_filter(unsigned int size, unsigned int count)
+/// @param n No. of hash functions
+void create_filter(unsigned int size, unsigned int n)
 {
     char* filename = "numbers.txt";         // file containing primes before 1,100,000
     m = find_prime_file(size, filename);    // Size of bit array we choose
     r = set_r(INT32_MAX, m);                   // Size of vector
+    count = n;
     hashes = create_hashvectors(count, m, r);
     filter = generateBitArray(m);
 }
