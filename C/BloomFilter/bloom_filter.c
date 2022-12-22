@@ -93,7 +93,7 @@ bool search_filter(int key)
     }
 
     free(indices);
-    print_search_result(result, key);
+    // print_search_result(result, key);
     return(result);
 }
 
