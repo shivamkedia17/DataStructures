@@ -86,6 +86,11 @@ avlTree insert(avlTree root, int value)
     else                {return root;}
 }
 
+avlTree which_child(avlTree Node)
+{
+    if avlTree
+}
+
 // assuming that the node to be deleted exists in tree
 avlTree delete(avlTree mainRoot, avlTree Node)
 {

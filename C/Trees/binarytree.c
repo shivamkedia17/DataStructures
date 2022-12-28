@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 
 typedef struct treeNode
@@ -8,6 +9,8 @@ typedef struct treeNode
     struct treeNode *right;
     struct treeNode *parent;
 }*bTree;
+
+typedef enum whichChild{left_child = -1, not_child = 0, right_child = 1} whichChild;
 
 bTree createNode(int value)
 {
@@ -44,6 +47,92 @@ bTree insert(bTree root, int value)
         else            {return insert(root->right, value);}
     }
     else                {return root;}
+}
+
+int countChild(bTree Node)
+{
+    if (Node == NULL) {return -1;}
+    bool r = false;
+    bool l = false;
+    if (Node->right != NULL) {r = 1;}
+    if (Node->left  != NULL) {l = 1;}
+    int c = l + r;
+    return c;
+}
+
+int which_Child(bTree Node)
+{
+    if (Node == NULL) 
+    {
+        perror("NULL Node passed as argument to which_child().");
+        exit(EXIT_FAILURE);
+    }
+    if (Node->parent == NULL) {return 0;}
+    else
+    {
+        if (Node->parent->left  == Node) {return -1;}
+        if (Node->parent->right == Node) {return  1;}
+    }
+    return -5; // Unexpected Error, should ideally never be reached
+}
+
+void delete(bTree Node)
+{
+    if (Node == NULL)   {return;}
+
+    int ct = countChild(Node);
+    switch (ct)
+    {
+    case 0: // set parent->node to NULL
+        
+        whichChild info = which_Child(Node);
+        switch (info)
+        {
+        case left_child:
+            Node->parent->left = NULL;
+            free(Node);
+            break;
+        
+        case right_child:
+            Node->parent->right = NULL;
+            free(Node);
+            break;
+        
+        default:
+            break;
+        }
+        break;
+
+    case 1: // replace parent->node with parent->node_child
+
+        whichChild info = which_Child(Node);
+        
+        switch (info)
+        {
+        case left_child:
+            Node->parent->left = NULL;
+            free(Node);
+            break;
+        
+        case right_child:
+            Node->parent->right = NULL;
+            free(Node);
+            break;
+        
+        default:
+            break;
+        }
+        break;
+
+    case 2:
+        break;
+
+    default:
+        break;
+    }
+
+
+
 }
 
 bTree search(bTree root, int value)

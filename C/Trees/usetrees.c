@@ -23,5 +23,9 @@ int main(int argc, char** argv)
     
     printNode(pred);
     printNode(succ);
+
+    bTree s = search(Root, 7);
+    printf("Nodes: %d\n", countChild(s));
+
     freeTree(Root);
 }
