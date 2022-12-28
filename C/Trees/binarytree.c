@@ -10,7 +10,9 @@ typedef struct treeNode
     struct treeNode *parent;
 }*bTree;
 
-typedef enum whichChild{left_child = -1, not_child = 0, right_child = 1} whichChild;
+enum children{left_child = -1, not_child = 0, right_child = 1};
+
+typedef enum children whichChild;
 
 bTree createNode(int value)
 {
@@ -76,9 +78,20 @@ int which_Child(bTree Node)
     return -5; // Unexpected Error, should ideally never be reached
 }
 
-void delete(bTree Node)
+bTree which_one_child(bTree Node)
 {
-    if (Node == NULL)   {return;}
+    if (!Node) {return NULL;}
+    //assuming Node has only one child
+    if (!(Node->right) && (Node->left )) {return Node->left ;}
+    if (!(Node->left ) && (Node->right)) {return Node->right;}
+    return NULL;
+}
+
+
+bTree delete(bTree Root, bTree Node)
+{
+    if (Root == NULL)   {return NULL;}
+    if (Node == NULL)   {return Root;}
 
     int ct = countChild(Node);
     switch (ct)
@@ -86,6 +99,7 @@ void delete(bTree Node)
     case 0: // set parent->node to NULL
         
         whichChild info = which_Child(Node);
+
         switch (info)
         {
         case left_child:
@@ -102,27 +116,33 @@ void delete(bTree Node)
             break;
         }
         break;
+    //-----------------------------------------------------------------------------------------------
 
     case 1: // replace parent->node with parent->node_child
 
         whichChild info = which_Child(Node);
-        
+        bTree child = which_one_child(Node);
+
         switch (info)
         {
+        default:
+            break;
+
         case left_child:
-            Node->parent->left = NULL;
+            Node->parent->left = child;
+            child->parent = Node->parent;
             free(Node);
             break;
         
         case right_child:
-            Node->parent->right = NULL;
+            Node->parent->right = child;
+            child->parent = Node->parent;
             free(Node);
-            break;
-        
-        default:
             break;
         }
         break;
+
+    //-----------------------------------------------------------------------------------------------
 
     case 2:
         break;
@@ -134,6 +154,7 @@ void delete(bTree Node)
 
 
 }
+
 
 bTree search(bTree root, int value)
 {
