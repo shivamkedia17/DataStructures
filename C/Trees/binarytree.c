@@ -109,7 +109,7 @@ bTree delete(bTree Root, int value)
                     break;
 
                 case 1:
-                    replacement = which_one_child(Node);
+                    replacement = which_one_child(Node); // replacement->parent is the one being deleted
                     break;
 
                 case 2:
@@ -117,10 +117,16 @@ bTree delete(bTree Root, int value)
                     if (!replacement) {replacement = find_successor(Root, Node->val);}
                     
                     if (which_child(replacement) == left_child) {replacement->parent->left  = NULL;}    
-                    else                                        {replacement->parent->right = NULL;}    
+                    else                                        {replacement->parent->right = NULL;}
+
+                    replacement->left  = Node->left;
+                    replacement->right = Node->right;
+                    if (replacement == Node->left )  {replacement->left  = NULL;}
+                    if (replacement == Node->right)  {replacement->right = NULL;}
+
                     break;
             }
-            if (replacement) {replacement->parent = NULL;}
+            if (replacement) {replacement->parent = Node->parent;}
 
         case not_child:
             Root = replacement;
