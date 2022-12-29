@@ -11,6 +11,7 @@ typedef struct arrayData
 }*array;
 
 
+/*
 array getArray_File(char *filename)
 {
     FILE* fp = fopen(filename, "r");
@@ -56,7 +57,7 @@ array getArray_File(char *filename)
     X->A = A;
     return X;
 }
-
+*/
 
 int* genArray(int l)
 {
@@ -66,7 +67,7 @@ int* genArray(int l)
 
     for (int i = 0; i < l; i++)
     {   
-        A[i] = random() % MAX; //generate a random num less in range(0,MAX)
+        A[i] = rand() % MAX; //generate a random num less in range(0,MAX)
     }
     //printf("l%d\n",l);
     return A; 

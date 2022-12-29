@@ -98,29 +98,29 @@ bTree delete(bTree Root, int value)
     int child_count = countChild(Node);
     whichChild wc   = which_child(Node);
 
+    bTree replacement = NULL;
+
     switch (wc)
     {
-        bTree replacement = NULL;
+        default:
+            switch (child_count)
+            {
+                case 0:
+                    break;
 
-        switch (child_count)
-        {
-            case 0:
-                break;
+                case 1:
+                    replacement = which_one_child(Node);
+                    break;
 
-            case 1:
-                replacement = which_one_child(Node);
-                break;
-
-            case 2:
-                replacement = find_predecessor(Root, Node->val);
-                if (!replacement) {replacement = find_successor(Root, Node->val);}
-                
-                if (which_child(replacement) == left_child) {replacement->parent->left  = NULL;}    
-                else                                        {replacement->parent->right = NULL;}    
-                break;
-        }
-
-        if (replacement) {replacement->parent = NULL;}
+                case 2:
+                    replacement = find_predecessor(Root, Node->val);
+                    if (!replacement) {replacement = find_successor(Root, Node->val);}
+                    
+                    if (which_child(replacement) == left_child) {replacement->parent->left  = NULL;}    
+                    else                                        {replacement->parent->right = NULL;}    
+                    break;
+            }
+            if (replacement) {replacement->parent = NULL;}
 
         case not_child:
             Root = replacement;
@@ -132,10 +132,8 @@ bTree delete(bTree Root, int value)
         
         case right_child:
             Node->parent->right = replacement;
-
-        free(Node);
-        return (Root);
     }
+    free(Node);
     return (Root);
 }
 

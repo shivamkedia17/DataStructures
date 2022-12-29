@@ -12,7 +12,7 @@ int main(int argc, char** argv)
     print2D(Root);
     printf("---------------------------------------\n");
 
-    Root = delete(Root, 737);
+    Root = delete(Root, 77);
     print2D(Root);
     printf("---------------------------------------\n");
 
