@@ -14,6 +14,10 @@ enum children{left_child = -1, not_child = 0, right_child = 1};
 
 typedef enum children whichChild;
 
+bTree find_predecessor(bTree Root, int val);
+bTree find_successor(bTree Root, int val);
+bTree search(bTree root, int value);
+
 bTree createNode(int value)
 {
     bTree Node  = malloc(sizeof(struct treeNode));
@@ -62,20 +66,16 @@ int countChild(bTree Node)
     return c;
 }
 
-int which_child(bTree Node)
+whichChild which_child(bTree Node)
 {
-    if (Node == NULL) 
-    {
-        perror("NULL Node passed as argument to which_child().");
-        exit(EXIT_FAILURE);
-    }
-    if (Node->parent == NULL) {return 0;}
+    if (Node == NULL) {return not_child;}
+    if (Node->parent == NULL) {return not_child;}
     else
     {
-        if (Node->parent->left  == Node) {return -1;}
-        if (Node->parent->right == Node) {return  1;}
+        if (Node->parent->left  == Node) {return left_child;}
+        if (Node->parent->right == Node) {return right_child;}
     }
-    return -5; // Unexpected Error, should ideally never be reached
+    return 0;
 }
 
 bTree which_one_child(bTree Node)
@@ -88,85 +88,55 @@ bTree which_one_child(bTree Node)
 }
 
 
-bTree delete(bTree Root, bTree Node)
+bTree delete(bTree Root, int value)
 {
     if (Root == NULL)   {return NULL;}
+    
+    bTree Node = search(Root, value);
     if (Node == NULL)   {return Root;}
 
-    int ct = countChild(Node);
-    whichChild info = which_child(Node);
-    
-    bTree child;
-    switch (ct)
+    int child_count = countChild(Node);
+    whichChild wc   = which_child(Node);
+
+    switch (wc)
     {
-        case 0: // set parent->node to NULL
-            switch (info)
-            {
-                case left_child:
-                    Node->parent->left = NULL;
-                    free(Node);
-                    break;
+        bTree replacement = NULL;
+
+        switch (child_count)
+        {
+            case 0:
+                break;
+
+            case 1:
+                replacement = which_one_child(Node);
+                break;
+
+            case 2:
+                replacement = find_predecessor(Root, Node->val);
+                if (!replacement) {replacement = find_successor(Root, Node->val);}
                 
-                case right_child:
-                    Node->parent->right = NULL;
-                    free(Node);
-                    break;
-
-                case not_child:
-                    free(Node);
-                    if (Root == Node) {return NULL;}
-                    break;
-
-                default:
-                    free(Node);
-                    break;
-            }
-            break;
-        //-----------------------------------------------------------------------------------------------
-
-        case 1: // replace parent->node with parent->node_child
-            child = which_one_child(Node);
-
-            switch (info)
-            {
-                case not_child:
-                    child->parent = NULL;
-                    free(Node);
-                    return (child);
-                    break;
-
-
-                case left_child:
-                    Node->parent->left = child;
-                    child->parent = Node->parent;
-                    free(Node);
-                    break;
-                
-                case right_child:
-                    Node->parent->right = child;
-                    child->parent = Node->parent;
-                    free(Node);
-                    break;
-
-                default:
-                    free(Node);
-                    break;
-
-            }
-            break;
-
-        //-----------------------------------------------------------------------------------------------
-
-        case 2:
-            break;
-
-        default:
-            free(Node);
-            break;
+                if (which_child(replacement) == left_child) {replacement->parent->left  = NULL;}    
+                else                                        {replacement->parent->right = NULL;}    
+                break;
         }
 
-    return(Root);
+        if (replacement) {replacement->parent = NULL;}
 
+        case not_child:
+            Root = replacement;
+            break;
+
+        case left_child:
+            Node->parent->left = replacement;
+            break;
+        
+        case right_child:
+            Node->parent->right = replacement;
+
+        free(Node);
+        return (Root);
+    }
+    return (Root);
 }
 
 
@@ -338,4 +308,36 @@ void printNode(bTree pNode)
 {
     if(!pNode)  {printf("NULL node.\n");}
     else        {printf("Address: %p, Val:%d\n", pNode, pNode->val);}
+}
+
+// stolen code here onwards
+#define COUNT 3
+void print2DUtil(bTree root, int space)
+{
+    // Base case
+    if (root == NULL)
+        return;
+ 
+    // Increase distance between levels
+    space += COUNT;
+ 
+    // Process right child first
+    print2DUtil(root->right, space);
+ 
+    // Print current node after space
+    // count
+    printf("\n");
+    for (int i = COUNT; i < space; i++)
+        printf(" ");
+    printf("%d\n", root->val);
+ 
+    // Process left child
+    print2DUtil(root->left, space);
+}
+ 
+// Wrapper over print2DUtil()
+void print2D(bTree root)
+{
+    // Pass initial space count as 0
+    print2DUtil(root, 0);
 }

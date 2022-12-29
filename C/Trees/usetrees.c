@@ -5,27 +5,16 @@
 
 int main(int argc, char** argv)
 {
-    int A[] = {4,2,1,3,6,5,7};
-    int l = 7;
+    int A[] = {44, 22, 11, 8, 17, 33, 29, 36, 66, 55, 77, 737};
+    int l = 12;
 
     bTree Root = genTree_Array(l, A);
-    printTree(Root, 1);
+    print2D(Root);
+    printf("---------------------------------------\n");
 
-    presentInsideTree(Root, 45);
-
-    insert(Root, 45);
-    printTree(Root, 1);
-
-    presentInsideTree(Root, 45);
-
-    bTree pred = find_predecessor(Root, 45);
-    bTree succ = find_successor(Root, 45);
-    
-    printNode(pred);
-    printNode(succ);
-
-    bTree s = search(Root, 7);
-    printf("Nodes: %d\n", countChild(s));
+    Root = delete(Root, 737);
+    print2D(Root);
+    printf("---------------------------------------\n");
 
     freeTree(Root);
 }
