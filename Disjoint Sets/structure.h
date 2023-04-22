@@ -37,21 +37,23 @@ struct disjointSet{
 
 
 // functions
-
 Node createNode(Item x);
-List initList(Item x);
 void appendNode(List list, Node x);
+
+List initList(Item x);
 void joinLists(List first, List second);
-void freeList(List list);
+
 void assignSet(List list, Set set);
+
+// Disjoint Set Operations
 Set MakeSet(Item element);
 Set FindSet(Item element);
 void Union(Item x, Item y, Set* sets, int n);
-void FreeSet(Set x);
 
+void freeList(List list);
+void FreeSet(Set x);
 
 void printSet(Set x);
 void printSets(Set* sets, int l);
-
 void printList(List list);
 void printItem(Item x);

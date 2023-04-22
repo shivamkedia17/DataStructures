@@ -11,7 +11,7 @@ int main(void)
 
     // Array to store the items
     Item * items = (Item*) malloc(sizeof(Item)*l);
-    Set * sets  = (Set*)  malloc(sizeof(Set )*l);
+    Set * sets   = (Set*)  malloc(sizeof(Set )*l);
 
     // Make l singleton sets, 10 in this case
     for (int i = 0; i < l; i++)
@@ -55,5 +55,20 @@ int main(void)
     printSet(FindSet(items[0]));
     printf("\n");
 
+    // Free memory
+
+    for (int i = 0; i < l; i++)
+    {
+        if (items[i])
+        {
+            free(items[i]);
+        }
+        if (sets[i])
+        {
+            FreeSet(sets[i]);
+        }
+        free(*items);
+        free(*sets);
+    }
     return 1;
 }

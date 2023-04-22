@@ -174,14 +174,15 @@ void printSets(Set* sets, int l)
 void freeList(List list)
 {
     if (!list)  {return;}
-    Node current = list->head;
-    while(current->next)
+
+    Node prev;
+    while (list->head)
     {
-        Node temp = current;
-        current = current->next;
-        free(temp);
+        prev        = list->head;
+        list->head  = list->head->next;
+        free(prev);
     }
-    free(current);
+    
     free(list);
     return;
 }
