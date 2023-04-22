@@ -1,0 +1,60 @@
+Sets:
+{ 10  }, Parent: 10 
+{ 17  }, Parent: 17 
+{ 22  }, Parent: 22 
+{ 34  }, Parent: 34 
+{ 39  }, Parent: 39 
+{ 888  }, Parent: 888 
+{ 663  }, Parent: 663 
+{ 6969  }, Parent: 6969 
+{ 2222  }, Parent: 2222 
+{ 5  }, Parent: 5 
+--------------------------
+Joining sets with items 10, 17
+Sets:
+{ 10 , 17  }, Parent: 10 
+{ 22  }, Parent: 22 
+{ 34  }, Parent: 34 
+{ 39  }, Parent: 39 
+{ 888  }, Parent: 888 
+{ 663  }, Parent: 663 
+{ 6969  }, Parent: 6969 
+{ 2222  }, Parent: 2222 
+{ 5  }, Parent: 5 
+--------------------------
+Joining sets with items 22, 34
+Sets:
+{ 10 , 17  }, Parent: 10 
+{ 22 , 34  }, Parent: 22 
+{ 39  }, Parent: 39 
+{ 888  }, Parent: 888 
+{ 663  }, Parent: 663 
+{ 6969  }, Parent: 6969 
+{ 2222  }, Parent: 2222 
+{ 5  }, Parent: 5 
+--------------------------
+Joining sets with items 39, 888
+Sets:
+{ 10 , 17  }, Parent: 10 
+{ 22 , 34  }, Parent: 22 
+{ 39 , 888  }, Parent: 39 
+{ 663  }, Parent: 663 
+{ 6969  }, Parent: 6969 
+{ 2222  }, Parent: 2222 
+{ 5  }, Parent: 5 
+--------------------------
+Joining sets with items 10, 22
+Sets:
+{ 10 , 17 , 22 , 34  }, Parent: 10 
+{ 39 , 888  }, Parent: 39 
+{ 663  }, Parent: 663 
+{ 6969  }, Parent: 6969 
+{ 2222  }, Parent: 2222 
+{ 5  }, Parent: 5 
+--------------------------
+FindSet(39): 
+{ 39 , 888  }, Parent: 39 
+FindSet(5): 
+{ 5  }, Parent: 5 
+FindSet(10): 
+{ 10 , 17 , 22 , 34  }, Parent: 10 

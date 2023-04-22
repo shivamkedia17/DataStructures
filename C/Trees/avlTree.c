@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
+#define errorf(str, ...) fputs("\x1b[31m", stderr); fprintf(stderr, str, __VA_ARGS__); fputs("\x1b[0m", stderr); exit(1);
 
 enum Heavy{doublyleft = -2, left = -1, neutral = 0, balanced = 0, right = 1, doublyright = 2};
 typedef enum Heavy Heavy;
@@ -88,7 +89,7 @@ avlTree insert(avlTree root, int value)
 
 avlTree which_child(avlTree Node)
 {
-    if avlTree
+    // if avlTree
 }
 
 // assuming that the node to be deleted exists in tree
@@ -101,7 +102,7 @@ avlTree delete(avlTree mainRoot, avlTree Node)
     // if Node is NOT root:
         //check whether Node is left or right child
         // set Dynamic = left/right
-    if (Node->right == NULL && Node->left == NULL) {Node->parent->"Dynamic"}
+    //if (Node->right == NULL && Node->left == NULL) {Node->parent->"Dynamic"}
 }
 
 
